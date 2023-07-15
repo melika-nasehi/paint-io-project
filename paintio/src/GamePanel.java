@@ -4,19 +4,15 @@ import java.awt.*;
 public class GamePanel extends JPanel implements Runnable {
     final int tileSize = 16 ;
     final int scale = 3 ;
-    final int displayedTileSize = tileSize * scale ;
+    public final int displayedTileSize = tileSize * scale ;
     final int screenRow = 10 ;
     final int screenCol = 10 ;
     final int screenWidth = displayedTileSize * screenCol ;
     final int screenHeight = displayedTileSize * screenRow ;
 
-    int playerX = 100 ;
-    int playerY = 100 ;
-    int playerSpeed = 1 ;
-
     Thread gameThread ;
-
     KeyHandler kh = new KeyHandler();
+    Player player = new Player(this , kh);
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth , screenHeight));
@@ -54,25 +50,15 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update () {
-
-
-        if (kh.upPressed || kh.isGoingUp) {
-                playerY -= playerSpeed;
-        }
-        else if (kh.downPressed || kh.isGoingDown)
-            playerY += playerSpeed ;
-        else if (kh.rightPressed || kh.isGoingRight)
-            playerX += playerSpeed ;
-        else if (kh.leftPressed || kh.isGoingLeft)
-            playerX -= playerSpeed ;
-
+        player.update();
     }
 
     public void paintComponent(Graphics graphics){
         super.paintComponent(graphics);
         Graphics2D graphics2D = (Graphics2D)graphics ;
-        graphics2D.setColor(Color.red);
-        graphics2D.fillRect(playerX , playerY , displayedTileSize , displayedTileSize);
+
+        player.draw(graphics2D);
+
         graphics2D.dispose();
 
     }
