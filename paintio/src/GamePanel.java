@@ -3,16 +3,17 @@ import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
     final int tileSize = 16 ;
-    final int scale = 3 ;
+    final int scale = 2 ;
     public final int displayedTileSize = tileSize * scale ;
-    final int screenRow = 10 ;
-    final int screenCol = 10 ;
+    public final int screenRow = 15 ;
+    public final int screenCol = 15 ;
     final int screenWidth = displayedTileSize * screenCol ;
     final int screenHeight = displayedTileSize * screenRow ;
 
     Thread gameThread ;
     KeyHandler kh = new KeyHandler();
     Player player = new Player(this , kh);
+    TileFactory tileFactory = new TileFactory(this) ;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth , screenHeight));
@@ -56,6 +57,8 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics graphics){
         super.paintComponent(graphics);
         Graphics2D graphics2D = (Graphics2D)graphics ;
+
+        tileFactory.draw(graphics2D);
 
         player.draw(graphics2D);
 
