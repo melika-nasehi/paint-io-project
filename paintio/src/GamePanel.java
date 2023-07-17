@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread ;
     KeyHandler kh = new KeyHandler();
     Player player = new Player(this , kh);
-    TileFactory tileFactory = new TileFactory(this) ;
+    CurrentMap currentMap = new CurrentMap(this) ;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth , screenHeight));
@@ -58,7 +58,7 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(graphics);
         Graphics2D graphics2D = (Graphics2D)graphics ;
 
-        tileFactory.draw(graphics2D);
+        currentMap.draw(graphics2D);
 
         player.draw(graphics2D);
 

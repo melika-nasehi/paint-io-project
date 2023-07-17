@@ -4,21 +4,21 @@ import java.io.IOException;
 
 public class TileFactory {
     GamePanel gp ;
-    Tile [] tileArray ;
+    Tile [] tilePicsArray ;
 
     public TileFactory(GamePanel gp) {
         this.gp = gp ;
-        tileArray = new Tile[15];
+        tilePicsArray = new Tile[15];
         getTileImage();
     }
     public void getTileImage() {
-        tileArray[0] = new Tile() ;
-        tileArray[1] = new Tile() ;
+        tilePicsArray[0] = new Tile() ;
+        tilePicsArray[1] = new Tile() ;
         try {
 
-            tileArray[0].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/gary tile.png")) ;
+            tilePicsArray[0].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/gary tile.png")) ;
 
-            tileArray[1].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/white tile.png")) ;
+            tilePicsArray[1].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/white tile.png")) ;
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -38,12 +38,12 @@ public class TileFactory {
             for (col = 0 ; col < gp.screenCol ; col ++) {
 
                 if (isGray) {
-                    graphics2D.drawImage(tileArray[0].tileImage, x, y,
+                    graphics2D.drawImage(tilePicsArray[0].tileImage, x, y,
                             gp.displayedTileSize, gp.displayedTileSize, null);
                     isGray = false ;
                 }
                 else {
-                    graphics2D.drawImage(tileArray[1].tileImage, x, y,
+                    graphics2D.drawImage(tilePicsArray[1].tileImage, x, y,
                             gp.displayedTileSize, gp.displayedTileSize, null);
                     isGray = true ;
                 }
