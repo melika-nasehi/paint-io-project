@@ -13,6 +13,7 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread ;
     KeyHandler kh = new KeyHandler();
     Player player = new Player(this , kh);
+    TileFactory tileFactory = new TileFactory(this) ;
     CurrentMap currentMap = new CurrentMap(this) ;
 
     public GamePanel(){

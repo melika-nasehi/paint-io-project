@@ -28,4 +28,12 @@ public class Tile {
         this.leftTile = leftTile ;
 
     }
+
+    public BufferedImage getTileImage() {
+        return tileImage;
+    }
+
+    public void setTileImage(BufferedImage tileImage) {
+        this.tileImage = tileImage;
+    }
 }

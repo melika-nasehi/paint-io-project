@@ -8,7 +8,7 @@ public class CurrentMap {
 
     public int screenX ;
     public int screenY ;
-    public ArrayList tilesOnScreen = new ArrayList();   // 625 tiles display at a moment
+    public ArrayList<Tile> tilesOnScreen = new ArrayList<Tile>();   // 625 tiles display at a moment
     GamePanel gamePanel ;
 
     Tile [] tilePicsArray ;
@@ -22,11 +22,13 @@ public class CurrentMap {
     public void getTileImage() {
         tilePicsArray[0] = new Tile() ;
         tilePicsArray[1] = new Tile() ;
+        tilePicsArray[2] = new Tile() ;
         try {
 
             tilePicsArray[0].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/gary tile.png")) ;
 
             tilePicsArray[1].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/white tile.png")) ;
+            tilePicsArray [2].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/check.png")) ;
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -72,10 +74,19 @@ public class CurrentMap {
                 Tile thisTile = new Tile() ;
                 initializeNeighborTiles(thisTile , upTile , downTile , rightTile , leftTile);
                 thisTile = new Tile(tilePic , TileStates.empty , row , col ,upTile , downTile , rightTile , leftTile) ;
+                tilesOnScreen.add(thisTile);
 
             }
             y = y + gamePanel.displayedTileSize ;
             x = 0 ;
+
+        }
+        for (Tile i : tilesOnScreen) {
+            if (i.tileX == 2 && i.tileY == -12 ) {
+                i.setTileImage(tilePicsArray[2].tileImage);
+                graphics2D.drawImage(i.tileImage, i.tileX, i.tileY,
+                        gamePanel.displayedTileSize, gamePanel.displayedTileSize, null);
+            }
         }
 
     }
