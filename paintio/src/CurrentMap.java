@@ -28,7 +28,7 @@ public class CurrentMap {
             tilePicsArray[0].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/gary tile.png")) ;
 
             tilePicsArray[1].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/white tile.png")) ;
-            tilePicsArray [2].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/check.png")) ;
+            tilePicsArray [2].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/blue.png")) ;
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -84,8 +84,9 @@ public class CurrentMap {
         for (Tile i : tilesOnScreen) {
             if (i.tileX == 2 && i.tileY == -12 ) {
                 i.setTileImage(tilePicsArray[2].tileImage);
-                graphics2D.drawImage(i.tileImage, i.tileX, i.tileY,
+                graphics2D.drawImage(i.tileImage, 4 * gamePanel.displayedTileSize,5* gamePanel.displayedTileSize,
                         gamePanel.displayedTileSize, gamePanel.displayedTileSize, null);
+
             }
         }
 
