@@ -81,14 +81,6 @@ public class CurrentMap {
             x = 0 ;
 
         }
-        for (Tile i : tilesOnScreen) {
-            if (i.tileX == 2 && i.tileY == -12 ) {
-                i.setTileImage(tilePicsArray[2].tileImage);
-                graphics2D.drawImage(i.tileImage, 4 * gamePanel.displayedTileSize,5* gamePanel.displayedTileSize,
-                        gamePanel.displayedTileSize, gamePanel.displayedTileSize, null);
-
-            }
-        }
 
     }
 
