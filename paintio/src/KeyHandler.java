@@ -4,7 +4,7 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
 
     public boolean upPressed , downPressed , rightPressed , leftPressed ;
-    public boolean isGoing ,isGoingUp , isGoingRight , isGoingLeft , isGoingDown ;
+    public boolean  isGoingUp , isGoingRight , isGoingLeft , isGoingDown ;
     @Override
     public void keyTyped(KeyEvent e) {
 
