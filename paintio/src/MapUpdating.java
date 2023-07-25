@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 
 public class MapUpdating {
@@ -5,13 +6,8 @@ public class MapUpdating {
     public ArrayList<Tile> coloredTiles = new ArrayList<>() ;
 
     public void goingUP (){
-        for(Tile i : coloredTiles) {
-            if (i.tileState.equals(TileStates.occupied)){
+        for(Tile i : CurrentMap.tilesOnScreen) {
 
-            }
-            else {
-
-            }
         }
 
     }

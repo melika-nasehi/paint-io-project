@@ -11,9 +11,9 @@ public class Player extends Entity{
     }
 
     public void setDefaultValues(){
-        X = gamePanel.displayedTileSize * 7 ;
-        Y = gamePanel.displayedTileSize * 7 ;
-        speed = 3 ;
+        X = gamePanel.displayedTileSize * 12 ;
+        Y = gamePanel.displayedTileSize * 12 ;
+        speed = 2 ;
     }
 
     public void update(){
