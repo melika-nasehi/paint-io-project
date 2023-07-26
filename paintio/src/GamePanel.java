@@ -10,11 +10,15 @@ public class GamePanel extends JPanel implements Runnable {
     final int screenWidth = displayedTileSize * screenCol ;
     final int screenHeight = displayedTileSize * screenRow ;
 
+    //world settings
+
+
     Thread gameThread ;
     KeyHandler kh = new KeyHandler();
+    MapUpdating mp = new MapUpdating() ;
     Player player = new Player(this , kh);
     TileFactory tileFactory = new TileFactory(this) ;
-    CurrentMap currentMap = new CurrentMap(this) ;
+    CurrentMap currentMap = new CurrentMap(this , kh , mp) ;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth , screenHeight));
@@ -53,13 +57,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update () {
         player.update();
+        currentMap.update();
     }
 
     public void paintComponent(Graphics graphics){
         super.paintComponent(graphics);
         Graphics2D graphics2D = (Graphics2D)graphics ;
 
-        tileFactory.draw(graphics2D); ////////////////////////////////////////////////
+        currentMap.draw(graphics2D); ////////////////////////////////////////////////
 
         player.draw(graphics2D);
 

@@ -1,5 +1,5 @@
 public class Entity {
-    public int X ;
-    public int Y ;
+    public int mapX ;
+    public int mapY ;
     public double speed ;
 }

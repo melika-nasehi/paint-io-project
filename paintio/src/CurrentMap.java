@@ -9,12 +9,18 @@ public class CurrentMap {
     public int screenX ;
     public int screenY ;
     public static ArrayList<Tile> tilesOnScreen = new ArrayList<Tile>();   // 625 tiles display at a moment
+
+    public static int currentScreen[][] = new int[25][25];
     GamePanel gamePanel ;
+    KeyHandler keyHandler ;
+    MapUpdating mapUpdating ;
 
     Tile [] tilePicsArray ;
 
-    public CurrentMap (GamePanel gamePanel) {
+    public CurrentMap (GamePanel gamePanel , KeyHandler keyHandler , MapUpdating mapUpdating) {
         this.gamePanel = gamePanel ;
+        this.keyHandler = keyHandler ;
+        this.mapUpdating = mapUpdating ;
         tilePicsArray = new Tile[15];
         getTileImage();
     }
@@ -33,53 +39,41 @@ public class CurrentMap {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public void update(){
+        if (keyHandler.upPressed || keyHandler.isGoingUp) {
+            mapUpdating.goingUP();
+
+        }
+        //else if (keyHandler.downPressed || keyHandler.isGoingDown)
+
+        //else if (keyHandler.rightPressed || keyHandler.isGoingRight)
+
+        //else if (keyHandler.leftPressed || keyHandler.isGoingLeft)
 
     }
 
     public void draw (Graphics2D graphics2D) {
-
         int x = 0 ;
         int y = 0;
         int row ;
         int col ;
-        boolean isGray = true ;
-        BufferedImage tilePic ;
-        Tile upTile = new Tile() ;
-        Tile downTile = new Tile();
-        Tile rightTile = new Tile() ;
-        Tile leftTile = new Tile() ;
 
-        for ( row = -12 ; row <= 12 ; row ++ ) {
+        firstScreen();
 
-            for (col = 12 ; col >= -12 ; col --) {
+        for ( row = 0 ; row < gamePanel.screenRow ; row ++ ) {
 
-                if (isGray) {
-                    graphics2D.drawImage(tilePicsArray[0].tileImage, x, y,
-                            gamePanel.displayedTileSize, gamePanel.displayedTileSize, null);
-                    isGray = false ;
-                    tilePic = tilePicsArray[0].tileImage ;
-                }
-                else {
-                    graphics2D.drawImage(tilePicsArray[1].tileImage, x, y,
-                            gamePanel.displayedTileSize, gamePanel.displayedTileSize, null);
-                    isGray = true ;
-                    tilePic = tilePicsArray[1].tileImage ;
-                }
+            for (col = 0 ; col < gamePanel.screenCol ; col ++) {
+
+                int tileNum = currentScreen[row][col] ;
+                graphics2D.drawImage(tilePicsArray[tileNum].tileImage, x, y,
+                        gamePanel.displayedTileSize, gamePanel.displayedTileSize, null);
 
                 x = x + gamePanel.displayedTileSize ;
-                Tile thisTile = new Tile() ;
-                initializeNeighborTiles(thisTile , upTile , downTile , rightTile , leftTile);
-                thisTile = new Tile(tilePic , TileStates.empty , row , col ,upTile , downTile , rightTile , leftTile) ;
-                tilesOnScreen.add(thisTile);
-
             }
             y = y + gamePanel.displayedTileSize ;
             x = 0 ;
-
         }
 
     }
@@ -97,6 +91,28 @@ public class CurrentMap {
 
         leftTile.tileX = tile.tileX - 1 ;
         leftTile.tileY = tile.tileY ;
+
+    }
+
+    public void firstScreen () {
+
+        int row ;
+        int col ;
+        boolean isWhite = false ;
+
+        for (row = 0 ; row < gamePanel.screenRow ; row++) {
+            for (col = 0 ; col < gamePanel.screenCol ; col++) {
+
+                if (isWhite) {   //white
+                 currentScreen[row][col] = 1 ;
+                 isWhite = false ;
+                }
+                else {           // gray
+                    currentScreen[row][col] = 0 ;
+                    isWhite = true ;
+                }
+            }
+        }
 
     }
 
