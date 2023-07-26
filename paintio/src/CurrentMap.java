@@ -23,6 +23,7 @@ public class CurrentMap {
         this.mapUpdating = mapUpdating ;
         tilePicsArray = new Tile[15];
         getTileImage();
+        firstScreen();
     }
 
     public void getTileImage() {
@@ -31,7 +32,7 @@ public class CurrentMap {
         tilePicsArray[2] = new Tile() ;
         try {
 
-            tilePicsArray[0].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/gary tile.png")) ;
+            tilePicsArray[0].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/gray.png")) ;
 
             tilePicsArray[1].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/white tile.png")) ;
             tilePicsArray [2].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/blue.png")) ;
@@ -42,15 +43,16 @@ public class CurrentMap {
     }
 
     public void update(){
-        if (keyHandler.upPressed || keyHandler.isGoingUp) {
+        if (keyHandler.upPressed || keyHandler.isGoingUp)
             mapUpdating.goingUP();
+        else if (keyHandler.downPressed || keyHandler.isGoingDown)
+            mapUpdating.goingDown();
 
-        }
-        //else if (keyHandler.downPressed || keyHandler.isGoingDown)
+        else if (keyHandler.rightPressed || keyHandler.isGoingRight)
+            mapUpdating.goingRight();
 
-        //else if (keyHandler.rightPressed || keyHandler.isGoingRight)
-
-        //else if (keyHandler.leftPressed || keyHandler.isGoingLeft)
+        else if (keyHandler.leftPressed || keyHandler.isGoingLeft)
+            mapUpdating.goingLeft();
 
     }
 
@@ -60,7 +62,6 @@ public class CurrentMap {
         int row ;
         int col ;
 
-        firstScreen();
 
         for ( row = 0 ; row < gamePanel.screenRow ; row ++ ) {
 
@@ -75,22 +76,6 @@ public class CurrentMap {
             y = y + gamePanel.displayedTileSize ;
             x = 0 ;
         }
-
-    }
-
-    public void initializeNeighborTiles(Tile tile , Tile upTile , Tile downTile , Tile rightTile , Tile leftTile) {
-
-        upTile.tileX = tile.tileX ;
-        upTile.tileY = tile.tileY + 1 ;
-
-        downTile.tileX = tile.tileX ;
-        downTile.tileY = tile.tileY - 1 ;
-
-        rightTile.tileX = tile.tileX + 1 ;
-        rightTile.tileY = tile.tileY ;
-
-        leftTile.tileX = tile.tileX - 1 ;
-        leftTile.tileY = tile.tileY ;
 
     }
 

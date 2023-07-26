@@ -1,3 +1,20 @@
 0 for gary
 1 for white
 2 for blue
+
+
+public void initializeNeighborTiles(Tile tile , Tile upTile , Tile downTile , Tile rightTile , Tile leftTile) {
+
+        upTile.tileX = tile.tileX ;
+        upTile.tileY = tile.tileY + 1 ;
+
+        downTile.tileX = tile.tileX ;
+        downTile.tileY = tile.tileY - 1 ;
+
+        rightTile.tileX = tile.tileX + 1 ;
+        rightTile.tileY = tile.tileY ;
+
+        leftTile.tileX = tile.tileX - 1 ;
+        leftTile.tileY = tile.tileY ;
+
+    }

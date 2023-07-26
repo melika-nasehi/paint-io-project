@@ -24,7 +24,7 @@ public class Player extends Entity{
     }
 
     public void update(){
-         if (keyHandler.upPressed || keyHandler.isGoingUp) {
+         /* if (keyHandler.upPressed || keyHandler.isGoingUp) {
             mapY -= speed;
         }
         else if (keyHandler.downPressed || keyHandler.isGoingDown)
@@ -32,7 +32,7 @@ public class Player extends Entity{
         else if (keyHandler.rightPressed || keyHandler.isGoingRight)
             mapX += speed ;
         else if (keyHandler.leftPressed || keyHandler.isGoingLeft)
-            mapX -= speed ;
+            mapX -= speed ; */
     }
     public void draw(Graphics2D graphics2D){
         graphics2D.setColor(Color.red);
