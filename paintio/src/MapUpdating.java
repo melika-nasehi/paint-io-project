@@ -3,11 +3,14 @@ import java.util.ArrayList;
 
 public class MapUpdating {
 
-    public int centerPlayerX = 0 ;
-    public int centerPlayerY = 0 ;   // when the game starts player is on (0,0)
+    public static int playerX = 0 ;
+    public static int playerY = 0 ;   // when the game starts player is on (0,0)
+                                      // player is always on center
 
-    public ArrayList<Tile> coloredTiles = new ArrayList<>() ;
+    public static ArrayList<Tile> coloredTiles = new ArrayList<>() ;
+    public static boolean up , down , right , left = false;
     Tile demo = new Tile() ;
+    Coloring coloring = new Coloring();
 
     public MapUpdating (){
         demo.tileX = 1000000000 ;
@@ -17,7 +20,7 @@ public class MapUpdating {
 
 
     public void goingUP () {
-
+        up = true ;
         int num = 0;
         boolean isEmpty ;
 
@@ -28,10 +31,10 @@ public class MapUpdating {
         }
 
 
-            for (int x = centerPlayerX - 12; x <= centerPlayerX + 12; x++) {
+            for (int x = playerX - 12; x <= playerX + 12; x++) {
                 isEmpty = true ;
                 for (Tile tile : coloredTiles) {
-                    if (tile.tileY == centerPlayerY + 13 && tile.tileX == x) {
+                    if (tile.tileY == playerY + 13 && tile.tileX == x) {
                         CurrentMap.currentScreen[0][num] = tile.tileNumber;
                         num++;
                         isEmpty = false ;
@@ -39,7 +42,7 @@ public class MapUpdating {
                     }
                 }
                 if (isEmpty) {
-                    if ((Math.abs(x) + Math.abs(centerPlayerY + 13)) % 2 == 0) {
+                    if ((Math.abs(x) + Math.abs(playerY + 13)) % 2 == 0) {
                         CurrentMap.currentScreen[0][num] = 0;
                         num++;
                     } else {
@@ -51,14 +54,14 @@ public class MapUpdating {
 
             }
 
-        Tile newTile = new Tile(centerPlayerX , centerPlayerY , 3 , TileStates.isOccupying ) ;
-        coloredTiles.add(newTile) ;
-        CurrentMap.currentScreen[12][12] = 3 ;
-        centerPlayerY ++ ;
+        coloring.paintTail();
+        coloring.paintTailArea(playerX , playerY);
+        playerY ++ ;
+        up = false ;
     }
 
     public void goingDown (){
-
+        down = true ;
         int num = 0 ;
         boolean isEmpty ;
 
@@ -68,10 +71,10 @@ public class MapUpdating {
             }
         }
 
-            for (int x = centerPlayerX -12 ; x <= centerPlayerX + 12 ; x ++) {
+            for (int x = playerX -12 ; x <= playerX + 12 ; x ++) {
                 isEmpty =true ;
                 for(Tile tile : coloredTiles) {
-                    if (tile.tileY == centerPlayerY - 13 && tile.tileX == x) {
+                    if (tile.tileY == playerY - 13 && tile.tileX == x) {
                         CurrentMap.currentScreen[24][num] = tile.tileNumber;
                         num++;
                         isEmpty = false ;
@@ -79,7 +82,7 @@ public class MapUpdating {
                     }
                 }
                 if (isEmpty) {
-                    if ( (Math.abs(x) + Math.abs(centerPlayerY - 13))  % 2 == 0 ) {
+                    if ( (Math.abs(x) + Math.abs(playerY - 13))  % 2 == 0 ) {
                         CurrentMap.currentScreen[24][num] = 0;
                         num ++ ;
                     }
@@ -91,14 +94,14 @@ public class MapUpdating {
 
             }
 
-        Tile newTile = new Tile(centerPlayerX , centerPlayerY , 3 , TileStates.isOccupying ) ;
-        coloredTiles.add(newTile) ;
-        CurrentMap.currentScreen[12][12] = 3 ;
-        centerPlayerY -- ;
+        coloring.paintTail();
+        coloring.paintTailArea(playerX , playerY);
+        playerY -- ;
+        down = false ;
     }
 
     public void goingRight (){
-
+        right = true ;
         int num = 0 ;
         boolean isEmpty ;
 
@@ -108,10 +111,10 @@ public class MapUpdating {
             }
         }
 
-            for (int y = centerPlayerY +12 ; y >= centerPlayerY -12 ; y--) {
+            for (int y = playerY +12 ; y >= playerY -12 ; y--) {
                 isEmpty = true ;
                 for(Tile tile : coloredTiles) {
-                    if (tile.tileX == centerPlayerX + 13 && tile.tileY == y) {
+                    if (tile.tileX == playerX + 13 && tile.tileY == y) {
                         CurrentMap.currentScreen[num][24] = tile.tileNumber;
                         num++;
                         isEmpty = false ;
@@ -119,7 +122,7 @@ public class MapUpdating {
                     }
                 }
                 if (isEmpty) {
-                    if ( (Math.abs(y) + Math.abs(centerPlayerX + 13))  % 2 == 0 ) {
+                    if ( (Math.abs(y) + Math.abs(playerX + 13))  % 2 == 0 ) {
                         CurrentMap.currentScreen[num][24] = 0;
                         num ++ ;
                     }
@@ -131,14 +134,14 @@ public class MapUpdating {
 
             }
 
-        Tile newTile = new Tile(centerPlayerX , centerPlayerY , 3 , TileStates.isOccupying ) ;
-        coloredTiles.add(newTile) ;
-        CurrentMap.currentScreen[12][12] = 3 ;
-        centerPlayerX ++ ;
+        coloring.paintTail();
+        coloring.paintTailArea(playerX , playerY);
+        playerX ++ ;
+        right = false ;
     }
 
     public void goingLeft (){
-
+        left = true ;
         int num = 0 ;
         boolean isEmpty ;
 
@@ -148,10 +151,10 @@ public class MapUpdating {
             }
         }
 
-            for (int y = centerPlayerY + 12 ; y >= centerPlayerY -12 ; y--) {
+            for (int y = playerY + 12 ; y >= playerY -12 ; y--) {
                 isEmpty = true ;
                 for(Tile tile : coloredTiles) {
-                    if (tile.tileX == centerPlayerX - 13 && tile.tileY == y) {
+                    if (tile.tileX == playerX - 13 && tile.tileY == y) {
                         CurrentMap.currentScreen[num][0] = tile.tileNumber;
                         num++;
                         isEmpty = false ;
@@ -159,7 +162,7 @@ public class MapUpdating {
                     }
                 }
                 if (isEmpty) {
-                    if ( (Math.abs(y) + Math.abs(centerPlayerX - 13))  % 2 == 0 ) {
+                    if ( (Math.abs(y) + Math.abs(playerX - 13))  % 2 == 0 ) {
                         CurrentMap.currentScreen[num][0] = 0;
                         num ++ ;
                     }
@@ -171,10 +174,10 @@ public class MapUpdating {
 
             }
 
-        Tile newTile = new Tile(centerPlayerX , centerPlayerY , 3 , TileStates.isOccupying ) ;
-        coloredTiles.add(newTile) ;
-        CurrentMap.currentScreen[12][12] = 3 ;
-        centerPlayerX -- ;
+        coloring.paintTail();
+        coloring.paintTailArea(playerX , playerY);
+        playerX -- ;
+        left = false ;
 
     }
 

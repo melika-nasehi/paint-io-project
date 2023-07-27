@@ -107,6 +107,10 @@ public class CurrentMap {
             for (col = 10 ; col < 15 ; col++) {
                 currentScreen[row][col] =  4 ;  // coloring a 5*5 square at the start point
 
+                // add to the colored tiles list
+                Tile newTile = new Tile(row - 12 , col -12 , 4 , TileStates.occupied ) ;
+                MapUpdating.coloredTiles.add(newTile) ;
+
             }
         }
 

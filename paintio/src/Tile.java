@@ -5,7 +5,7 @@ public class Tile {
     public int tileY ;
     public int tileNumber ;
     BufferedImage tileImage ;
-    TileStates tileState ;
+    TileStates tileState = TileStates.empty;
 
     public Tile (int tileX , int tileY , int tileNumber , TileStates tileState) {
         this.tileX = tileX ;
@@ -16,5 +16,13 @@ public class Tile {
 
     public Tile () {
 
+    }
+
+    public void setTileNumber(int tileNumber) {
+        this.tileNumber = tileNumber;
+    }
+
+    public void setTileState(TileStates tileState) {
+        this.tileState = tileState;
     }
 }
