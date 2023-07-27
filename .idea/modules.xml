@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/demo/demo.iml" filepath="$PROJECT_DIR$/demo/demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/demo1234/demo1234.iml" filepath="$PROJECT_DIR$/demo1234/demo1234.iml" />
+      <module fileurl="file://$PROJECT_DIR$/demo333/demo333.iml" filepath="$PROJECT_DIR$/demo333/demo333.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/paint-io-project.iml" filepath="$PROJECT_DIR$/.idea/paint-io-project.iml" />
+    </modules>
+  </component>
+</project>
