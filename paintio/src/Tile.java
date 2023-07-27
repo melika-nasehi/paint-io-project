@@ -1,20 +1,20 @@
 import java.awt.image.BufferedImage;
 
 public class Tile {
-
-    public BufferedImage tileImage ;
-    public TileStates tileState ;
-    public int tileNumber ;
     public int tileX ;
     public int tileY ;
+    public int tileNumber ;
+    BufferedImage tileImage ;
+    TileStates tileState ;
 
-
-
-    public BufferedImage getTileImage() {
-        return tileImage;
+    public Tile (int tileX , int tileY , int tileNumber , TileStates tileState) {
+        this.tileX = tileX ;
+        this.tileY = tileY ;
+        this.tileNumber = tileNumber ;
+        this.tileState = tileState ;
     }
 
-    public void setTileImage(BufferedImage tileImage) {
-        this.tileImage = tileImage;
+    public Tile () {
+
     }
 }

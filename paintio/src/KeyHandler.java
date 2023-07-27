@@ -30,6 +30,10 @@ public class KeyHandler implements KeyListener {
             isGoingLeft = isGoingRight = isGoingUp = false ;
             downPressed = true ;
         }
+        if (code == KeyEvent.VK_SPACE) {
+            isGoingUp = isGoingDown = isGoingRight = isGoingLeft = false ;
+            upPressed = downPressed = rightPressed = leftPressed = false ;
+        }
 
 }
 

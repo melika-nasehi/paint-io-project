@@ -30,12 +30,16 @@ public class CurrentMap {
         tilePicsArray[0] = new Tile() ;
         tilePicsArray[1] = new Tile() ;
         tilePicsArray[2] = new Tile() ;
+        tilePicsArray[3] = new Tile() ;
+        tilePicsArray[4] = new Tile() ;
         try {
 
             tilePicsArray[0].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/gray.png")) ;
-
             tilePicsArray[1].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/white tile.png")) ;
-            tilePicsArray [2].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/blue.png")) ;
+            tilePicsArray[2].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/blue.png")) ;
+            tilePicsArray[3].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/light red.png")) ;
+            tilePicsArray[4].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/red.png")) ;
+
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -98,6 +102,14 @@ public class CurrentMap {
                 }
             }
         }
+
+        for (row = 10 ; row < 15 ; row++) {
+            for (col = 10 ; col < 15 ; col++) {
+                currentScreen[row][col] =  4 ;  // coloring a 5*5 square at the start point
+
+            }
+        }
+
 
     }
 

@@ -1,4 +1,6 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.IOException;
 
 public class Player extends Entity{
     GamePanel gamePanel ;
@@ -15,12 +17,25 @@ public class Player extends Entity{
         screenY = gamePanel.displayedTileSize * 12 ;
 
         setDefaultValues();
+        getPlayerImage();
     }
 
     public void setDefaultValues(){
         mapX = gamePanel.displayedTileSize * 12 ;
         mapY = gamePanel.displayedTileSize * 12 ;
         speed = 2 ;
+    }
+
+    public void getPlayerImage(){
+
+        try {
+
+            img1 = ImageIO.read(getClass().getResourceAsStream("/images/crimson.png")) ;
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void update(){
@@ -35,8 +50,11 @@ public class Player extends Entity{
             mapX -= speed ; */
     }
     public void draw(Graphics2D graphics2D){
-        graphics2D.setColor(Color.red);
-        graphics2D.fillRect(screenX , screenY , gamePanel.displayedTileSize , gamePanel.displayedTileSize);
+       // graphics2D.setColor(Color.red);
+       // graphics2D.fillRect(screenX , screenY , gamePanel.displayedTileSize , gamePanel.displayedTileSize);
+
+        graphics2D.drawImage(img1 , screenX , screenY ,
+                gamePanel.displayedTileSize , gamePanel.displayedTileSize , null );
 
     }
 }
