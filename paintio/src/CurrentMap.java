@@ -10,7 +10,7 @@ public class CurrentMap {
     public int screenY ;
     public static ArrayList<Tile> tilesOnScreen = new ArrayList<Tile>();   // 625 tiles display at a moment
 
-    public static int currentScreen[][] = new int[25][25];
+    public static int[][] currentScreen = new int[25][25];
     GamePanel gamePanel ;
     KeyHandler keyHandler ;
     MapUpdating mapUpdating ;
