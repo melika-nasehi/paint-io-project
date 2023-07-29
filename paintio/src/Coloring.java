@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Coloring {
@@ -10,6 +11,7 @@ public class Coloring {
         boolean isPlayerOnArea = isPlayerOnArea(MapUpdating.playerX , MapUpdating.playerY) ;
 
         if (! isPlayerOnArea) {
+
             Tile newTile = new Tile(MapUpdating.playerX, MapUpdating.playerY, 3, TileStates.isOccupying);
             MapUpdating.coloredTiles.add(newTile);
             tails.add(newTile) ;
@@ -44,7 +46,7 @@ public class Coloring {
 
         if (hasReached) {  // coloring the tail character made (changing light colors into occupied colors)
 
-            paintInsideArea2();
+            paintInsideArea3();
 
             for (Tile tile : MapUpdating.coloredTiles) {
                 if (tile.tileState.equals(TileStates.isOccupying)) {
@@ -64,6 +66,83 @@ public class Coloring {
         }
 
     }
+
+
+    public void paintInsideArea3 (){
+
+        int nPoints ;
+        nPoints = tails.size()  ;
+        int[] xPoints = new int[nPoints];
+        int[] yPoints = new int[nPoints] ;
+        int num  ;
+        Rectangle bound = new Rectangle();
+
+        num = 0 ;
+        for (Tile tile : tails) {
+            xPoints[num] = tile.tileX ;
+            yPoints[num] = tile.tileY ;
+            num++ ;
+        }
+
+        Polygon polygon = new Polygon(xPoints , yPoints , nPoints) ;
+        bound = polygon.getBounds() ;
+
+
+        int x = MapUpdating.playerX ;
+        int y = MapUpdating.playerY ;
+        x -= 12 ;
+        y += 12 ;
+
+        if (MapUpdating.up)
+            y += 1 ;
+        if (MapUpdating.down)
+            y -= 1 ;
+        if (MapUpdating.right)
+            x += 1 ;
+        if (MapUpdating.left)
+            x -= 1 ;
+
+        for (int i = 0 ; i < 25 ; i ++) {
+            for  (int j = 0 ; j < 25 ; j ++) {
+                if (bound.contains(x , y) ) {
+                    CurrentMap.currentScreen[i][j] = 4 ;
+                    Tile newTile = new Tile(x , y , 4 , TileStates.occupied) ;
+                    MapUpdating.coloredTiles.add(newTile) ;
+                }
+                x ++ ;
+            }
+            y -- ;
+            x -= 25 ;
+        }
+
+        for (Tile tile : tails) {
+            tile = null ;
+        }
+
+
+
+    }
+
+    public boolean isPlayerOnArea (int x , int y) {
+        boolean result = false ;
+        for (Tile tile : MapUpdating.coloredTiles) {
+            if (tile.tileX == x && tile.tileY == y
+                    && tile.tileState.equals(TileStates.occupied)) {
+
+                result = true ;
+                break;
+            }
+
+        }
+        return result ;
+    }
+
+
+
+
+
+
+
 
     public void paintInsideArea1 () {
         int maxY = 0 ;
@@ -130,17 +209,31 @@ public class Coloring {
 
     public void paintInsideArea2(){
 
+        boolean borderFound = false;
+        int borderI = 0 ;
+
         int[][] shouldBePainted = new int[25][25] ;
 
         for (int i = 0 ; i < 25 ; i ++) {
             for (int j = 0 ; j < 25 ; j ++){
-                if (CurrentMap.currentScreen[i][j] == 3 ){  // if it was a tail
-                    System.out.println("hi");
-                    while ((CurrentMap.currentScreen[i][j+1] != 3 && CurrentMap.currentScreen[i][j+1] != 4) && (j < 23)) {
-                        shouldBePainted[i][j+1] = 4 ;
-                        j++ ;
-                    }
+                if (CurrentMap.currentScreen[i][j] == 3 && CurrentMap.currentScreen[i][j+1]== 3 ){
+                    borderFound = true ;
+                    borderI = i ;
                     break;
+                }
+            }
+        }
+
+        if (borderFound) {
+            for (int k = 0 ; k < 25 ; k++) {
+                if (CurrentMap.currentScreen[borderI -1][k] == 3) {
+                    for (int t = k +1 ; k < 25 ; k++) {
+                        if ((CurrentMap.currentScreen[borderI -1][t] == 3) || (CurrentMap.currentScreen[borderI -1][t] == 4)){
+                            for (int r = k+1 ; r < t ; r++ ) {
+                                shouldBePainted[borderI-1][r] = 4 ;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -158,17 +251,14 @@ public class Coloring {
     }
 
 
-    public boolean isPlayerOnArea (int x , int y) {
-        boolean result = false ;
-        for (Tile tile : MapUpdating.coloredTiles) {
-            if (tile.tileX == x && tile.tileY == y
-                    && tile.tileState.equals(TileStates.occupied)) {
 
-                result = true ;
-                break;
-            }
 
-        }
-        return result ;
-    }
+
+
+
 }
+
+
+
+
+

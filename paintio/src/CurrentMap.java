@@ -37,8 +37,9 @@ public class CurrentMap {
             tilePicsArray[0].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/gray.png")) ;
             tilePicsArray[1].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/white tile.png")) ;
             tilePicsArray[2].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/blue.png")) ;
-            tilePicsArray[3].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/light red.png")) ;
+            tilePicsArray[3].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/light red 2.png")) ;
             tilePicsArray[4].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/red.png")) ;
+
 
 
         } catch (IOException e) {
