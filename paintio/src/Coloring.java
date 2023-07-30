@@ -46,7 +46,7 @@ public class Coloring {
 
         if (hasReached) {  // coloring the tail character made (changing light colors into occupied colors)
 
-            paintInsideArea3();
+            paintInsideArea4();
 
             for (Tile tile : MapUpdating.coloredTiles) {
                 if (tile.tileState.equals(TileStates.isOccupying)) {
@@ -74,10 +74,8 @@ public class Coloring {
         nPoints = tails.size()  ;
         int[] xPoints = new int[nPoints];
         int[] yPoints = new int[nPoints] ;
-        int num  ;
-        Rectangle bound = new Rectangle();
+        int num = 0  ;
 
-        num = 0 ;
         for (Tile tile : tails) {
             xPoints[num] = tile.tileX ;
             yPoints[num] = tile.tileY ;
@@ -85,8 +83,6 @@ public class Coloring {
         }
 
         Polygon polygon = new Polygon(xPoints , yPoints , nPoints) ;
-        bound = polygon.getBounds() ;
-
 
         int x = MapUpdating.playerX ;
         int y = MapUpdating.playerY ;
@@ -94,17 +90,17 @@ public class Coloring {
         y += 12 ;
 
         if (MapUpdating.up)
-            y += 1 ;
+            y += 0 ;
         if (MapUpdating.down)
             y -= 1 ;
         if (MapUpdating.right)
-            x += 1 ;
+            x += 0 ;
         if (MapUpdating.left)
             x -= 1 ;
 
         for (int i = 0 ; i < 25 ; i ++) {
             for  (int j = 0 ; j < 25 ; j ++) {
-                if (bound.contains(x , y) ) {
+                if (polygon.getBounds().contains(x , y) ) {
                     CurrentMap.currentScreen[i][j] = 4 ;
                     Tile newTile = new Tile(x , y , 4 , TileStates.occupied) ;
                     MapUpdating.coloredTiles.add(newTile) ;
@@ -115,10 +111,105 @@ public class Coloring {
             x -= 25 ;
         }
 
-        for (Tile tile : tails) {
-            tile = null ;
+        tails.clear();
+        polygon.reset();
+        
+    }
+
+    public void paintInsideArea4 () {
+        for (int i = 0 ; i < 25 ; i ++) {
+            for (int j = 0 ; j < 25 ; j ++) {
+                if (CurrentMap.currentScreen[i][j] == 3 || CurrentMap.currentScreen[i][j] == 4 ) {
+                    for (int k = j+1 ; k < 25 ; k ++) {
+                        if (CurrentMap.currentScreen[i][k] == 3 || CurrentMap.currentScreen[i][k] == 4 ) {
+                            for (int t = k-1 ; t > j ; t --) {
+                                CurrentMap.currentScreen[i][t] = 4 ;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
+        int maxY = 0 ;
+        int minY = 0 ;
+        int minX = 0 ;
+        int maxX = 0 ;
+        boolean alreadyAdded = false;
+        boolean doOnce = true ;
+        boolean doOnce2 = true ;
+        boolean doOnce3 = true ;
+        boolean doOnce4 = true ;
+
+        for (Tile tile : MapUpdating.coloredTiles) {
+            if (doOnce) {
+                maxY = tile.tileY ;
+                doOnce = false ;
+            }
+            if (tile.tileY > maxY) {
+                maxY = tile.tileY;
+            }
+        }
+
+        for (Tile tile : MapUpdating.coloredTiles) {
+            if (doOnce2) {
+                minY = tile.tileY ;
+                doOnce2 = false ;
+            }
+            if (tile.tileY < minY) {
+                minY = tile.tileY ;
+            }
+        }
+
+
+        for (int y = maxY ; y >= minY ; y-- ) {
+
+            for (Tile tile : MapUpdating.coloredTiles) {
+                if (tile.tileY == y) {
+                    if (doOnce3) {
+                        minX = tile.tileX ;
+                        doOnce3 = false ;
+                    }
+                    if (tile.tileX < minX)
+                        minX = tile.tileX ;
+                }
+            }
+
+            for (Tile tile : MapUpdating.coloredTiles) {
+                if (tile.tileY == y) {
+                    if (doOnce4) {
+                        maxX = tile.tileX ;
+                        doOnce4 =false ;
+                    }
+                    if (tile.tileX > maxX)
+                        maxX = tile.tileX ;
+                }
+            }
+
+            System.out.println(minX);
+            System.out.println(maxX);
+
+            for (int x = minX ; x < maxX ; x ++) {
+
+                for (Tile tile : MapUpdating.coloredTiles) {
+                    if (tile.tileX == x && tile.tileY == y) {
+                        alreadyAdded = true ;
+                        tile.tileNumber = 4 ;
+                        tile.tileState = TileStates.occupied ;
+                        break;
+                    }
+                }
+
+                if (!alreadyAdded) {
+                    Tile newTile = new Tile(x, y, 4, TileStates.occupied);
+                    MapUpdating.coloredTiles.add(newTile);
+                }
+
+                alreadyAdded = false ;
+
+            }
+        }
 
 
     }

@@ -13,8 +13,10 @@ public class MapUpdating {
     Coloring coloring = new Coloring();
 
     public MapUpdating (){
-        demo.tileX = 1000000000 ;
-        demo.tileY = 1000000000 ;
+        demo.tileX = 0 ;
+        demo.tileY = 0 ;
+        demo.tileNumber = 4 ;
+        demo.tileState = TileStates.occupied ;
         coloredTiles.add(demo) ;
     }
 
@@ -71,7 +73,7 @@ public class MapUpdating {
             }
         }
 
-            for (int x = playerX -12 ; x <= playerX + 12 ; x ++) {
+            for (int x = playerX - 12 ; x <= playerX + 12 ; x ++) {
                 isEmpty =true ;
                 for(Tile tile : coloredTiles) {
                     if (tile.tileY == playerY - 13 && tile.tileX == x) {
