@@ -117,6 +117,7 @@ public class Coloring {
     }
 
     public void paintInsideArea4 () {
+
         for (int i = 0 ; i < 25 ; i ++) {
             for (int j = 0 ; j < 25 ; j ++) {
                 if (CurrentMap.currentScreen[i][j] == 3 || CurrentMap.currentScreen[i][j] == 4 ) {
@@ -164,6 +165,8 @@ public class Coloring {
 
 
         for (int y = maxY ; y >= minY ; y-- ) {
+
+            doOnce3 = doOnce4 = true ;
 
             for (Tile tile : MapUpdating.coloredTiles) {
                 if (tile.tileY == y) {

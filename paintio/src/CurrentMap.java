@@ -98,7 +98,7 @@ public class CurrentMap {
                  isWhite = false ;
                 }
                 else {           // gray
-                    currentScreen[row][col] = 0 ;
+                    currentScreen[row][col] = 1 ;
                     isWhite = true ;
                 }
             }

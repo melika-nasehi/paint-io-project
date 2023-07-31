@@ -19,6 +19,7 @@ public class GamePanel extends JPanel implements Runnable {
     Player player = new Player(this , kh);
     TileFactory tileFactory = new TileFactory(this) ;
     CurrentMap currentMap = new CurrentMap(this , kh , mp) ;
+    Weapon weapon = new Weapon();
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth , screenHeight));
@@ -36,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     public void run() {
 
-        double drawInterval = 1000000000 / 5.5 ; // 60 = fps (frame per second)
+        double drawInterval = 1000000000 / 10 ; // 60 = fps (frame per second)
         double delta = 0 ;
         long lastTime = System.nanoTime();
         long currentTime ;

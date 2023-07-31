@@ -11,6 +11,7 @@ public class MapUpdating {
     public static boolean up , down , right , left = false;
     Tile demo = new Tile() ;
     Coloring coloring = new Coloring();
+    Weapon weapon = new Weapon();
 
     public MapUpdating (){
         demo.tileX = 0 ;
@@ -45,7 +46,7 @@ public class MapUpdating {
                 }
                 if (isEmpty) {
                     if ((Math.abs(x) + Math.abs(playerY + 13)) % 2 == 0) {
-                        CurrentMap.currentScreen[0][num] = 0;
+                        CurrentMap.currentScreen[0][num] = 1;
                         num++;
                     } else {
                         CurrentMap.currentScreen[0][num] = 1;
@@ -85,7 +86,7 @@ public class MapUpdating {
                 }
                 if (isEmpty) {
                     if ( (Math.abs(x) + Math.abs(playerY - 13))  % 2 == 0 ) {
-                        CurrentMap.currentScreen[24][num] = 0;
+                        CurrentMap.currentScreen[24][num] = 1;
                         num ++ ;
                     }
                     else {
@@ -125,7 +126,7 @@ public class MapUpdating {
                 }
                 if (isEmpty) {
                     if ( (Math.abs(y) + Math.abs(playerX + 13))  % 2 == 0 ) {
-                        CurrentMap.currentScreen[num][24] = 0;
+                        CurrentMap.currentScreen[num][24] = 1;
                         num ++ ;
                     }
                     else {
@@ -165,7 +166,7 @@ public class MapUpdating {
                 }
                 if (isEmpty) {
                     if ( (Math.abs(y) + Math.abs(playerX - 13))  % 2 == 0 ) {
-                        CurrentMap.currentScreen[num][0] = 0;
+                        CurrentMap.currentScreen[num][0] = 1;
                         num ++ ;
                     }
                     else {

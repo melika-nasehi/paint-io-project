@@ -3,8 +3,9 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
-    public boolean upPressed , downPressed , rightPressed , leftPressed ;
-    public boolean  isGoingUp , isGoingRight , isGoingLeft , isGoingDown ;
+    public static boolean upPressed , downPressed , rightPressed , leftPressed ;
+    public static boolean  isGoingUp , isGoingRight , isGoingLeft , isGoingDown ;
+    public boolean weaponA , weaponB;
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -33,6 +34,10 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_SPACE) {
             isGoingUp = isGoingDown = isGoingRight = isGoingLeft = false ;
             upPressed = downPressed = rightPressed = leftPressed = false ;
+        }
+        if (code == KeyEvent.VK_ENTER) {
+            Weapon weapon = new Weapon() ;
+            weapon.weaponA();
         }
 
 }
