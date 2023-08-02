@@ -10,7 +10,7 @@ public class CurrentMap {
     public int screenY ;
     public static ArrayList<Tile> tilesOnScreen = new ArrayList<Tile>();   // 625 tiles display at a moment
 
-    public static int[][] currentScreen = new int[25][25];
+    public static int[][] currentScreen = new int[31][55];
     GamePanel gamePanel ;
     KeyHandler keyHandler ;
     MapUpdating mapUpdating ;
@@ -21,7 +21,7 @@ public class CurrentMap {
         this.gamePanel = gamePanel ;
         this.keyHandler = keyHandler ;
         this.mapUpdating = mapUpdating ;
-        tilePicsArray = new Tile[15];
+        tilePicsArray = new Tile[30];
         getTileImage();
         firstScreen();
     }
@@ -32,13 +32,24 @@ public class CurrentMap {
         tilePicsArray[2] = new Tile() ;
         tilePicsArray[3] = new Tile() ;
         tilePicsArray[4] = new Tile() ;
+        tilePicsArray[5] = new Tile() ;
+        tilePicsArray[6] = new Tile() ;
+        tilePicsArray[9] = new Tile() ;
+        tilePicsArray[12] = new Tile() ;
+        tilePicsArray[15] = new Tile() ;
         try {
 
             tilePicsArray[0].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/gray.png")) ;
             tilePicsArray[1].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/white tile.png")) ;
-            tilePicsArray[2].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/blue.png")) ;
-            tilePicsArray[3].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/light red 2.png")) ;
-            tilePicsArray[4].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/red.png")) ;
+            tilePicsArray[2].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/light red 2.png")) ;
+            tilePicsArray[3].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/red.png")) ;
+            tilePicsArray[4].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/light blue.png")) ;
+            tilePicsArray[5].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/blue.png")) ;
+            tilePicsArray[6].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/player blue.png")) ;
+            tilePicsArray[9].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/player pink.png")) ;
+            tilePicsArray[12].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/player green.png")) ;
+            tilePicsArray[15].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/player orange.png")) ;
+
 
 
 
@@ -48,15 +59,15 @@ public class CurrentMap {
     }
 
     public void update(){
-        if (keyHandler.upPressed || keyHandler.isGoingUp)
+        if (KeyHandler.upPressed || KeyHandler.isGoingUp)
             mapUpdating.goingUP();
-        else if (keyHandler.downPressed || keyHandler.isGoingDown)
+        else if (KeyHandler.downPressed || KeyHandler.isGoingDown)
             mapUpdating.goingDown();
 
-        else if (keyHandler.rightPressed || keyHandler.isGoingRight)
+        else if (KeyHandler.rightPressed || KeyHandler.isGoingRight)
             mapUpdating.goingRight();
 
-        else if (keyHandler.leftPressed || keyHandler.isGoingLeft)
+        else if (KeyHandler.leftPressed || KeyHandler.isGoingLeft)
             mapUpdating.goingLeft();
 
     }
@@ -98,18 +109,18 @@ public class CurrentMap {
                  isWhite = false ;
                 }
                 else {           // gray
-                    currentScreen[row][col] = 1 ;
+                    currentScreen[row][col] = TileFactory.contrastTile ;
                     isWhite = true ;
                 }
             }
         }
 
-        for (row = 10 ; row < 15 ; row++) {
-            for (col = 10 ; col < 15 ; col++) {
-                currentScreen[row][col] =  4 ;  // coloring a 5*5 square at the start point
+        for (row = 13 ; row < 18 ; row++) {
+            for (col = 25 ; col < 30 ; col++) {
+                currentScreen[row][col] =  3 ;  // coloring a 5*5 square at the start point
 
                 // add to the colored tiles list
-                Tile newTile = new Tile(row - 12 , col -12 , 4 , TileStates.occupied ) ;
+                Tile newTile = new Tile( col -27 , row - 15 , 3 , TileStates.occupied ) ;
                 MapUpdating.coloredTiles.add(newTile) ;
 
             }

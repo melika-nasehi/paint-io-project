@@ -5,21 +5,20 @@ public class GamePanel extends JPanel implements Runnable {
     final int tileSize = 8 ;
     final int scale = 3 ;
     public final int displayedTileSize = tileSize * scale ;
-    public final int screenRow = 25 ;
-    public final int screenCol = 25 ;
+    public final int screenRow = 31 ;
+    public final int screenCol = 55 ;
     final int screenWidth = displayedTileSize * screenCol ;
     final int screenHeight = displayedTileSize * screenRow ;
 
-    //world settings
 
 
     Thread gameThread ;
     KeyHandler kh = new KeyHandler();
     MapUpdating mp = new MapUpdating() ;
     Player player = new Player(this , kh);
-    TileFactory tileFactory = new TileFactory(this) ;
     CurrentMap currentMap = new CurrentMap(this , kh , mp) ;
-    Weapon weapon = new Weapon();
+    Enemy enemy = new Enemy(this);
+    //Enemy enemy2 = new Enemy(this) ;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth , screenHeight));
@@ -37,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     public void run() {
 
-        double drawInterval = 1000000000 / 10 ; // 60 = fps (frame per second)
+        double drawInterval = 1000000000 / 5.5 ; // 60 = fps (frame per second)
         double delta = 0 ;
         long lastTime = System.nanoTime();
         long currentTime ;
@@ -58,6 +57,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update () {
         player.update();
+        enemy.update();
+       // enemy2.update();
         currentMap.update();
     }
 
@@ -68,6 +69,9 @@ public class GamePanel extends JPanel implements Runnable {
         currentMap.draw(graphics2D); ////////////////////////////////////////////////
 
         player.draw(graphics2D);
+
+        enemy.draw(graphics2D);
+        //enemy2.draw(graphics2D);
 
         graphics2D.dispose();
 

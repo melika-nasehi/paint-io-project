@@ -13,10 +13,12 @@ public class MapUpdating {
     Coloring coloring = new Coloring();
     Weapon weapon = new Weapon();
 
+    int contrastTile = TileFactory.contrastTile ;
+
     public MapUpdating (){
         demo.tileX = 0 ;
         demo.tileY = 0 ;
-        demo.tileNumber = 4 ;
+        demo.tileNumber = 3 ;
         demo.tileState = TileStates.occupied ;
         coloredTiles.add(demo) ;
     }
@@ -27,17 +29,17 @@ public class MapUpdating {
         int num = 0;
         boolean isEmpty ;
 
-        for (int i = 24; i > 0; i--) {
-            for (int j = 0; j < 25; j++) {
+        for (int i = 30; i > 0; i--) {
+            for (int j = 0; j < 55; j++) {
                 CurrentMap.currentScreen[i][j] = CurrentMap.currentScreen[i - 1][j];
             }
         }
 
 
-            for (int x = playerX - 12; x <= playerX + 12; x++) {
+            for (int x = playerX - 27; x <= playerX + 27 ; x++) {
                 isEmpty = true ;
                 for (Tile tile : coloredTiles) {
-                    if (tile.tileY == playerY + 13 && tile.tileX == x) {
+                    if (tile.tileY == playerY + 16 && tile.tileX == x) {
                         CurrentMap.currentScreen[0][num] = tile.tileNumber;
                         num++;
                         isEmpty = false ;
@@ -45,8 +47,8 @@ public class MapUpdating {
                     }
                 }
                 if (isEmpty) {
-                    if ((Math.abs(x) + Math.abs(playerY + 13)) % 2 == 0) {
-                        CurrentMap.currentScreen[0][num] = 1;
+                    if ((Math.abs(x) + Math.abs(playerY + 16)) % 2 == 0) {
+                        CurrentMap.currentScreen[0][num] = contrastTile;
                         num++;
                     } else {
                         CurrentMap.currentScreen[0][num] = 1;
@@ -68,29 +70,29 @@ public class MapUpdating {
         int num = 0 ;
         boolean isEmpty ;
 
-        for (int i = 0 ; i < 24 ; i ++) {
-            for (int j = 0 ; j < 25 ; j ++) {
+        for (int i = 0 ; i < 30 ; i ++) {
+            for (int j = 0 ; j < 55 ; j ++) {
                 CurrentMap.currentScreen[i][j] = CurrentMap.currentScreen[i+1][j] ;
             }
         }
 
-            for (int x = playerX - 12 ; x <= playerX + 12 ; x ++) {
+            for (int x = playerX - 27 ; x <= playerX + 27 ; x ++) {
                 isEmpty =true ;
                 for(Tile tile : coloredTiles) {
-                    if (tile.tileY == playerY - 13 && tile.tileX == x) {
-                        CurrentMap.currentScreen[24][num] = tile.tileNumber;
+                    if (tile.tileY == playerY - 16 && tile.tileX == x) {
+                        CurrentMap.currentScreen[30][num] = tile.tileNumber;
                         num++;
                         isEmpty = false ;
                         break;
                     }
                 }
                 if (isEmpty) {
-                    if ( (Math.abs(x) + Math.abs(playerY - 13))  % 2 == 0 ) {
-                        CurrentMap.currentScreen[24][num] = 1;
+                    if ( (Math.abs(x) + Math.abs(playerY - 16))  % 2 == 0 ) {
+                        CurrentMap.currentScreen[30][num] = contrastTile;
                         num ++ ;
                     }
                     else {
-                        CurrentMap.currentScreen[24][num] = 1;
+                        CurrentMap.currentScreen[30][num] = 1;
                         num ++ ;
                     }
                 }
@@ -108,29 +110,29 @@ public class MapUpdating {
         int num = 0 ;
         boolean isEmpty ;
 
-        for (int i = 0 ; i < 24 ; i ++) {
-            for (int j = 0 ; j < 25 ; j ++) {
-                CurrentMap.currentScreen[j][i] = CurrentMap.currentScreen[j][i+1] ;
+        for (int j = 0 ; j < 54 ; j ++) {
+            for (int i = 0 ; i < 31 ; i ++) {
+                CurrentMap.currentScreen[i][j] = CurrentMap.currentScreen[i][j+1] ;
             }
         }
 
-            for (int y = playerY +12 ; y >= playerY -12 ; y--) {
+            for (int y = playerY + 15 ; y >= playerY -15 ; y--) {
                 isEmpty = true ;
                 for(Tile tile : coloredTiles) {
-                    if (tile.tileX == playerX + 13 && tile.tileY == y) {
-                        CurrentMap.currentScreen[num][24] = tile.tileNumber;
+                    if (tile.tileX == playerX + 27 && tile.tileY == y) {
+                        CurrentMap.currentScreen[num][54] = tile.tileNumber;
                         num++;
                         isEmpty = false ;
                         break;
                     }
                 }
                 if (isEmpty) {
-                    if ( (Math.abs(y) + Math.abs(playerX + 13))  % 2 == 0 ) {
-                        CurrentMap.currentScreen[num][24] = 1;
+                    if ( (Math.abs(y) + Math.abs(playerX + 28))  % 2 == 0 ) {
+                        CurrentMap.currentScreen[num][54] = contrastTile;
                         num ++ ;
                     }
                     else {
-                        CurrentMap.currentScreen[num][24] = 1;
+                        CurrentMap.currentScreen[num][54] = 1;
                         num ++;
                     }
                 }
@@ -148,16 +150,16 @@ public class MapUpdating {
         int num = 0 ;
         boolean isEmpty ;
 
-        for (int i = 24 ; i > 0 ; i --) {
-            for (int j = 0 ; j < 25 ; j ++) {
-                CurrentMap.currentScreen[j][i] = CurrentMap.currentScreen[j][i-1] ;
+        for (int j = 54 ; j > 0 ; j --) {
+            for (int i = 0 ; i < 31 ; i++) {
+                CurrentMap.currentScreen[i][j] = CurrentMap.currentScreen[i][j-1] ;
             }
         }
 
-            for (int y = playerY + 12 ; y >= playerY -12 ; y--) {
+            for (int y = playerY + 15 ; y >= playerY -15 ; y--) {
                 isEmpty = true ;
                 for(Tile tile : coloredTiles) {
-                    if (tile.tileX == playerX - 13 && tile.tileY == y) {
+                    if (tile.tileX == playerX - 28 && tile.tileY == y) {
                         CurrentMap.currentScreen[num][0] = tile.tileNumber;
                         num++;
                         isEmpty = false ;
@@ -165,8 +167,8 @@ public class MapUpdating {
                     }
                 }
                 if (isEmpty) {
-                    if ( (Math.abs(y) + Math.abs(playerX - 13))  % 2 == 0 ) {
-                        CurrentMap.currentScreen[num][0] = 1;
+                    if ( (Math.abs(y) + Math.abs(playerX - 28))  % 2 == 0 ) {
+                        CurrentMap.currentScreen[num][0] = contrastTile;
                         num ++ ;
                     }
                     else {

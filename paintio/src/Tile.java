@@ -25,4 +25,20 @@ public class Tile {
     public void setTileState(TileStates tileState) {
         this.tileState = tileState;
     }
+
+    public void setTileX(int tileX) {
+        this.tileX = tileX;
+    }
+
+    public void setTileY(int tileY) {
+        this.tileY = tileY;
+    }
+
+    public int getTileX() {
+        return tileX;
+    }
+
+    public int getTileY() {
+        return tileY;
+    }
 }
