@@ -11,11 +11,13 @@ public class Enemy extends Player{
     Random random = new Random() ;
     private int[] colors = {6 , 9 , 12 , 15} ;  // different color codes
     int playerColor ;
+    boolean goingUp , goingDown , goingRight , goingLeft ;
+    int tileX = 0 , tileY = 0 ;
 
     public Enemy (GamePanel gamePanel) {
         this.gamePanel = gamePanel ;
         setDefaultValues();
-        getPlayerImage(this.imagePath);
+        //getPlayerImage(this.imagePath);
 
     }
 
@@ -40,8 +42,6 @@ public class Enemy extends Player{
     public void draw(Graphics2D graphics2D) {
         // graphics2D.drawImage(this.img , xPosition , yPosition ,gamePanel.displayedTileSize , gamePanel.displayedTileSize , null );
 
-
-
     }
 
     @Override
@@ -60,7 +60,7 @@ public class Enemy extends Player{
 
         CurrentMap.currentScreen[rand2][rand1] = playerColor ;
 
-        Tile playerTile = new Tile(rand1 - 27 , rand2 + 15 , playerColor , TileStates.playerONIt) ;
+        Tile playerTile = new Tile(rand1 - 27 ,  -rand2 + 15 , playerColor , TileStates.playerONIt) ;
         MapUpdating.coloredTiles.add(playerTile) ;
 
          for (int i = rand ; i < colors.length -1 ; i++)  // To avoid duplicate colors
@@ -72,79 +72,121 @@ public class Enemy extends Player{
     }
 
     public void moving () {
-        int tileX = 0 , tileY = 0 ;
         int rand = random.nextInt(100) ;
+        changePlace(goingUp , goingDown , goingRight , goingLeft);
 
-        if (rand <= 100) {  // up
-
-            for (Tile tile : MapUpdating.coloredTiles) {
-                if (tile.tileNumber == playerColor) {
-                    tile.setTileY(tile.tileY ++);
-                    tileX = tile.getTileX() ;
-                    tileY = tile.getTileY() ;
-                }
-            }
-
-            //checking if it is in visible area and change the current screen array
-
-            if ((tileX <= MapUpdating.playerX + 27 && tileX >= MapUpdating.playerX - 27) &&
-                    (tileY <= MapUpdating.playerY + 15 && tileY >= MapUpdating.playerY - 15)) {
-
-                for (int i = 1 ; i < 31 ; i++) {
-                    for (int j = 0 ; j < 55 ; j++) {
-                        if (CurrentMap.currentScreen[i][j] == playerColor ) {
-                            CurrentMap.currentScreen[i-1][j] = playerColor ;
-                            if ((Math.abs(MapUpdating.playerX) + Math.abs(MapUpdating.playerY)) % 2 == 0 ) {
-                                if ((i + j) % 2 == 0)
-                                    CurrentMap.currentScreen[i][j] = 0 ;
-                                else
-                                    CurrentMap.currentScreen[i][j] = 1 ;
-                            }
-                            else{
-                                if ((i + j) % 2 == 0)
-                                    CurrentMap.currentScreen[i][j] = 1 ;
-                                else
-                                    CurrentMap.currentScreen[i][j] = 0 ;
-                            }
-
-                        }
-                    }
-                }
-
-            }
-
+        if (rand <= 5) {  // up
+           goingUp = true ;
+           goingDown = goingRight = goingLeft = false ;
         }
-
 
         else if (rand <= 10) {  // down
-
-            for (Tile tile : MapUpdating.coloredTiles) {
-                if (tile.tileNumber == 6) {
-                    tile.setTileY(tile.tileY --);
-                }
-            }
+            goingDown = true ;
+            goingUp = goingRight = goingLeft = false ;
         }
-
 
         else if (rand <= 15) {  // right
-
-            for (Tile tile : MapUpdating.coloredTiles) {
-                if (tile.tileNumber == 6) {
-                    tile.setTileX(tile.tileX ++);
-                }
-            }
+            goingRight = true ;
+            goingUp = goingDown = goingLeft = false ;
         }
-
 
         else if (rand <= 20) { // left
+            goingLeft = true ;
+            goingUp = goingDown = goingRight = false ;
+        }
 
-            for (Tile tile : MapUpdating.coloredTiles) {
-                if (tile.tileNumber == 6) {
-                    tile.setTileX(tile.tileX --);
-                }
+    }
+
+    public void changePlace (boolean up , boolean down , boolean right , boolean left ) {
+        int direction = 0  ;
+        int minI = 0 ;
+        int minJ = 0 ;
+        int maxI = 0 ;
+        int maxJ = 0 ;
+        int m = 0 ;
+        int n = 0 ;
+        if (up) {
+            direction = 1 ;
+            minI = 1 ;
+            maxI = 31 ;
+            minJ = 0 ;
+            maxJ = 55 ;
+            m = -1 ;
+        }
+        else if (down) {
+            direction = -1 ;
+            minI = 0 ;
+            maxI = 30 ;
+            minJ = 0 ;
+            maxJ = 55 ;
+            m = 1 ;
+        }
+        else if (right) {
+            direction = 1;
+            minI = 0 ;
+            maxI = 31 ;
+            minJ = 0 ;
+            maxJ = 54 ;
+            n = 1 ;
+        }
+        else if (left) {
+            direction = - 1 ;
+            minI = 0 ;
+            maxI = 31 ;
+            minJ = 1 ;
+            maxJ = 55 ;
+            n = -1 ;
+        }
+
+        for (Tile tile : MapUpdating.coloredTiles) {
+            if (tile.tileNumber == playerColor) {
+                int x = tile.getTileX();
+                int y = tile.getTileY() ;
+                if (up || down)
+                    tile.setTileY(y + direction);
+                else if (right || left)
+                    tile.setTileX(x + direction);
+                tileX = tile.getTileX() ;
+                tileY = tile.getTileY() ;
+                break;
             }
         }
 
+        //checking if it is in visible area and change the current screen array
+
+        if ((tileX <= MapUpdating.playerX + 27 && tileX >= MapUpdating.playerX - 27) &&
+                (tileY <= MapUpdating.playerY + 15 && tileY >= MapUpdating.playerY - 15)) {
+
+            boolean found = false ;
+            for (int i = minI ; i < maxI ; i++) {
+                for (int j = minJ ; j < maxJ ; j++) {
+                    if (CurrentMap.currentScreen[i][j] == playerColor ) {
+                        CurrentMap.currentScreen[i+m][j+n] = playerColor ;
+                        drawEmpty(i, j);
+                        found = true ;
+                        break;
+                    }
+                }
+                if (found)
+                    break;
+            }
+        }
+
+    }
+
+    private void drawEmpty(int i, int j) {
+        if ((Math.abs(MapUpdating.playerX) + Math.abs(MapUpdating.playerY)) % 2 == 0 ) {
+            if ((i + j) % 2 == 0)
+                CurrentMap.currentScreen[i][j] = playerColor - 2 ;
+            else
+                CurrentMap.currentScreen[i][j] = playerColor - 2 ;
+        }
+        else{
+            if ((i + j) % 2 == 0)
+                CurrentMap.currentScreen[i][j] = playerColor - 2 ;
+            else
+                CurrentMap.currentScreen[i][j] = playerColor - 2 ;
+        }
     }
 
     public void paintTail() {

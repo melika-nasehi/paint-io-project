@@ -98,22 +98,26 @@ public class Coloring {
         boolean doOnce4 = true ;
 
         for (Tile tile : MapUpdating.coloredTiles) {
-            if (doOnce) {
-                maxY = tile.tileY ;
-                doOnce = false ;
-            }
-            if (tile.tileY > maxY) {
-                maxY = tile.tileY;
+            if (tile.tileNumber == 2 || tile.tileNumber == 3) {
+                if (doOnce) {
+                    maxY = tile.tileY;
+                    doOnce = false;
+                }
+                if (tile.tileY > maxY) {
+                    maxY = tile.tileY;
+                }
             }
         }
 
         for (Tile tile : MapUpdating.coloredTiles) {
-            if (doOnce2) {
-                minY = tile.tileY ;
-                doOnce2 = false ;
-            }
-            if (tile.tileY < minY) {
-                minY = tile.tileY ;
+            if (tile.tileNumber == 2 || tile.tileNumber == 3) {
+                if (doOnce2) {
+                    minY = tile.tileY;
+                    doOnce2 = false;
+                }
+                if (tile.tileY < minY) {
+                    minY = tile.tileY;
+                }
             }
         }
 
@@ -123,35 +127,41 @@ public class Coloring {
             doOnce3 = doOnce4 = true ;
 
             for (Tile tile : MapUpdating.coloredTiles) {
-                if (tile.tileY == y) {
-                    if (doOnce3) {
-                        minX = tile.tileX ;
-                        doOnce3 = false ;
+                if (tile.tileNumber == 2 || tile.tileNumber == 3) {
+                    if (tile.tileY == y) {
+                        if (doOnce3) {
+                            minX = tile.tileX;
+                            doOnce3 = false;
+                        }
+                        if (tile.tileX < minX)
+                            minX = tile.tileX;
                     }
-                    if (tile.tileX < minX)
-                        minX = tile.tileX ;
                 }
             }
 
             for (Tile tile : MapUpdating.coloredTiles) {
-                if (tile.tileY == y) {
-                    if (doOnce4) {
-                        maxX = tile.tileX ;
-                        doOnce4 =false ;
+                if (tile.tileNumber == 2 || tile.tileNumber == 3) {
+                    if (tile.tileY == y) {
+                        if (doOnce4) {
+                            maxX = tile.tileX;
+                            doOnce4 = false;
+                        }
+                        if (tile.tileX > maxX)
+                            maxX = tile.tileX;
                     }
-                    if (tile.tileX > maxX)
-                        maxX = tile.tileX ;
                 }
             }
 
             for (int x = minX ; x < maxX ; x ++) {
 
                 for (Tile tile : MapUpdating.coloredTiles) {
-                    if (tile.tileX == x && tile.tileY == y) {
-                        alreadyAdded = true ;
-                        tile.tileNumber = 3 ;
-                        tile.tileState = TileStates.occupied ;
-                        break;
+                    if (tile.tileNumber == 2 || tile.tileNumber == 3) {
+                        if (tile.tileX == x && tile.tileY == y) {
+                            alreadyAdded = true;
+                            tile.tileNumber = 3;
+                            tile.tileState = TileStates.occupied;
+                            break;
+                        }
                     }
                 }
 

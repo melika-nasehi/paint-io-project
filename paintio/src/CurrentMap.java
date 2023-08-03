@@ -34,8 +34,14 @@ public class CurrentMap {
         tilePicsArray[4] = new Tile() ;
         tilePicsArray[5] = new Tile() ;
         tilePicsArray[6] = new Tile() ;
+        tilePicsArray[7] = new Tile() ;
+        tilePicsArray[8] = new Tile() ;
         tilePicsArray[9] = new Tile() ;
+        tilePicsArray[10] = new Tile() ;
+        tilePicsArray[11] = new Tile() ;
         tilePicsArray[12] = new Tile() ;
+        tilePicsArray[13] = new Tile() ;
+        tilePicsArray[14] = new Tile() ;
         tilePicsArray[15] = new Tile() ;
         try {
 
@@ -46,8 +52,14 @@ public class CurrentMap {
             tilePicsArray[4].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/light blue.png")) ;
             tilePicsArray[5].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/blue.png")) ;
             tilePicsArray[6].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/player blue.png")) ;
+            tilePicsArray[7].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/light pink.png")) ;
+            tilePicsArray[8].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/pink.png")) ;
             tilePicsArray[9].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/player pink.png")) ;
+            tilePicsArray[10].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/light green.png")) ;
+            tilePicsArray[11].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/green.png")) ;
             tilePicsArray[12].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/player green.png")) ;
+            tilePicsArray[13].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/light orange.png")) ;
+            tilePicsArray[14].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/orange.png")) ;
             tilePicsArray[15].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/player orange.png")) ;
 
 
