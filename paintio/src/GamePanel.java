@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
     final int tileSize = 8 ;
@@ -17,8 +18,13 @@ public class GamePanel extends JPanel implements Runnable {
     MapUpdating mp = new MapUpdating() ;
     Player player = new Player(this , kh);
     CurrentMap currentMap = new CurrentMap(this , kh , mp) ;
-    Enemy enemy = new Enemy(this);
-    //Enemy enemy2 = new Enemy(this) ;
+    int enemyCount = 0 ;
+    int colorCount = 0 ;
+    ArrayList<Integer> usedColors = new ArrayList<>();
+    Enemy enemy1 = new Enemy(this);
+    Enemy enemy2 = new Enemy(this) ;
+    Enemy enemy3 = new Enemy(this) ;
+    Enemy enemy4 = new Enemy(this) ;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth , screenHeight));
@@ -57,8 +63,20 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update () {
         player.update();
-        enemy.update();
-       // enemy2.update();
+
+        try {
+            enemy1.update();
+        }catch (NullPointerException e) {}
+        try {
+            enemy2.update();
+        }catch (NullPointerException e) {}
+        try {
+            enemy3.update();
+        }catch (NullPointerException e) {}
+        try {
+            enemy4.update();
+        }catch (NullPointerException e) {}
+
         currentMap.update();
     }
 
@@ -70,8 +88,18 @@ public class GamePanel extends JPanel implements Runnable {
 
         player.draw(graphics2D);
 
-        enemy.draw(graphics2D);
-        //enemy2.draw(graphics2D);
+        try {
+            enemy1.draw(graphics2D);
+        }catch (NullPointerException e){}
+        try {
+            enemy2.draw(graphics2D);
+        }catch (NullPointerException e){}
+        try {
+            enemy3.draw(graphics2D);
+        }catch (NullPointerException e){}
+        try {
+            enemy4.draw(graphics2D);
+        }catch (NullPointerException e){}
 
         graphics2D.dispose();
 

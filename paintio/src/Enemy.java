@@ -9,10 +9,11 @@ public class Enemy extends Player{
     GamePanel gamePanel ;
     Coloring coloring  = new Coloring() ;
     Random random = new Random() ;
-    private int[] colors = {6 , 9 , 12 , 15} ;  // different color codes
-    int playerColor ;
-    boolean goingUp , goingDown , goingRight , goingLeft ;
+    public int[] colors = {7 , 10 , 13 , 16} ;  // different color codes
+    private int playerColor ;
+    boolean goingUp , goingDown = true , goingRight , goingLeft ;
     int tileX = 0 , tileY = 0 ;
+    int playerX , playerY ;
 
     public Enemy (GamePanel gamePanel) {
         this.gamePanel = gamePanel ;
@@ -24,6 +25,8 @@ public class Enemy extends Player{
     @Override
     public void update() {
         moving();
+        coloring();
+        kill(playerX , playerY ,playerColor-2);
     }
 
     @Override
@@ -40,34 +43,92 @@ public class Enemy extends Player{
 
     @Override
     public void draw(Graphics2D graphics2D) {
-        // graphics2D.drawImage(this.img , xPosition , yPosition ,gamePanel.displayedTileSize , gamePanel.displayedTileSize , null );
 
+    }
+
+    private int getRandomColors(){
+        int rand = random.nextInt(colors.length) ;
+        playerColor = colors[rand] ;
+        boolean duplicate ;
+        boolean finish = false ;
+        while (!finish) {
+            duplicate = false ;
+            for (Integer i : gamePanel.usedColors) {
+                if (i == playerColor) {
+                    duplicate = true ;
+                    break;
+                }
+            }
+            if (duplicate) {
+                rand = random.nextInt(colors.length);
+                playerColor = colors[rand];
+            }
+            if (! duplicate)
+                finish = true ;
+
+        }
+
+        gamePanel.usedColors.add(playerColor) ;
+        return playerColor ;
     }
 
     @Override
     public void setDefaultValues() {
+        int rand1 =0 ;
+        int rand2 = 0 ;
+        gamePanel.enemyCount ++ ;
 
-        int rand1 = random.nextInt(10);
-        int rand2 = random.nextInt(10);
+        switch (gamePanel.enemyCount) {
+            case 1 :
+                rand1 = random.nextInt(1 , 22);
+                rand2 = random.nextInt(1 , 12);
+                break;
+            case 2 :
+                rand1 = random.nextInt(33 , 53);
+                rand2 = random.nextInt(1 , 12);
+                break;
+            case 3 :
+                rand1 = random.nextInt(1 , 22);
+                rand2 = random.nextInt(19 , 29);
+                break;
+            case 4 :
+                rand1 = random.nextInt(33 , 53);
+                rand2 = random.nextInt(19 , 29);
+                break;
+        }
+
+        playerColor = getRandomColors() ;
 
         xPosition = rand1 * gamePanel.displayedTileSize ;
         yPosition = rand2 * gamePanel.displayedTileSize ;
-
-        System.out.println(rand1); System.out.println(rand2);
-
-        int rand = random.nextInt(colors.length) ;
-        playerColor = colors[rand] ;
 
         CurrentMap.currentScreen[rand2][rand1] = playerColor ;
 
         Tile playerTile = new Tile(rand1 - 27 ,  -rand2 + 15 , playerColor , TileStates.playerONIt) ;
         MapUpdating.coloredTiles.add(playerTile) ;
 
-         for (int i = rand ; i < colors.length -1 ; i++)  // To avoid duplicate colors
-             colors[i] = colors[i+1] ;
+        playerX = rand1 - 27 ;
+        playerY = - rand2 + 15 ;
 
 
+            for (int i = rand2 - 2 ; i <= rand2 + 2 ; i ++) {
+                for (int j = rand1 - 2 ; j <= rand1 + 2 ; j ++) {
+                    if ((i != rand2 || j != rand1) && (i >= 0 && i < 31) && (j >= 0 && j < 55) ) {
+                        CurrentMap.currentScreen[i][j] = playerColor - 1;
+                        Tile newTile = new Tile(playerX + j - rand1 , playerY - i + rand2 ,
+                                playerColor - 1 ,TileStates.occupied ) ;
+                        MapUpdating.coloredTiles.add(newTile) ;
+                    }
+                    if (i == rand2 && j == rand1) {
+                        Tile newTile = new Tile(playerX + j - rand1 , playerY - i + rand2 ,
+                                playerColor - 1 ,TileStates.occupied ) ;
+                        MapUpdating.coloredTiles.add(newTile) ;
+                    }
+                    if ((i >= 0 && i < 31) && (j >= 0 && j < 55)) {
 
+                    }
+                }
+            }
 
     }
 
@@ -75,22 +136,22 @@ public class Enemy extends Player{
         int rand = random.nextInt(100) ;
         changePlace(goingUp , goingDown , goingRight , goingLeft);
 
-        if (rand <= 5) {  // up
+        if (rand <= 5 ) {  // up
            goingUp = true ;
            goingDown = goingRight = goingLeft = false ;
         }
 
-        else if (rand <= 10) {  // down
+        else if (rand <= 10 ) {  // down
             goingDown = true ;
             goingUp = goingRight = goingLeft = false ;
         }
 
-        else if (rand <= 15) {  // right
+        else if (rand <= 15 ) {  // right
             goingRight = true ;
             goingUp = goingDown = goingLeft = false ;
         }
 
-        else if (rand <= 20) { // left
+        else if (rand <= 20 ) { // left
             goingLeft = true ;
             goingUp = goingDown = goingRight = false ;
         }
@@ -99,42 +160,22 @@ public class Enemy extends Player{
 
     public void changePlace (boolean up , boolean down , boolean right , boolean left ) {
         int direction = 0  ;
-        int minI = 0 ;
-        int minJ = 0 ;
-        int maxI = 0 ;
-        int maxJ = 0 ;
         int m = 0 ;
         int n = 0 ;
         if (up) {
             direction = 1 ;
-            minI = 1 ;
-            maxI = 31 ;
-            minJ = 0 ;
-            maxJ = 55 ;
             m = -1 ;
         }
         else if (down) {
             direction = -1 ;
-            minI = 0 ;
-            maxI = 30 ;
-            minJ = 0 ;
-            maxJ = 55 ;
             m = 1 ;
         }
         else if (right) {
             direction = 1;
-            minI = 0 ;
-            maxI = 31 ;
-            minJ = 0 ;
-            maxJ = 54 ;
             n = 1 ;
         }
         else if (left) {
             direction = - 1 ;
-            minI = 0 ;
-            maxI = 31 ;
-            minJ = 1 ;
-            maxJ = 55 ;
             n = -1 ;
         }
 
@@ -146,6 +187,8 @@ public class Enemy extends Player{
                     tile.setTileY(y + direction);
                 else if (right || left)
                     tile.setTileX(x + direction);
+                Tile newTile = new Tile(x , y , playerColor - 2 , TileStates.isOccupying) ;
+                MapUpdating.coloredTiles.add(newTile) ;
                 tileX = tile.getTileX() ;
                 tileY = tile.getTileY() ;
                 break;
@@ -154,15 +197,41 @@ public class Enemy extends Player{
 
         //checking if it is in visible area and change the current screen array
 
-        if ((tileX <= MapUpdating.playerX + 27 && tileX >= MapUpdating.playerX - 27) &&
-                (tileY <= MapUpdating.playerY + 15 && tileY >= MapUpdating.playerY - 15)) {
+        if ((tileX <= MapUpdating.playerX + 28 && tileX >= MapUpdating.playerX - 28) &&
+                (tileY <= MapUpdating.playerY + 16 && tileY >= MapUpdating.playerY - 16)) {
 
             boolean found = false ;
-            for (int i = minI ; i < maxI ; i++) {
-                for (int j = minJ ; j < maxJ ; j++) {
+            boolean onArea = false ;
+            int t = 0 ;
+            if (up||down||right||left)
+             t = 55 ;
+            for (int i = 0 ; i < 31 ; i++) {
+                for (int j = 0 ; j < t ; j++) {
                     if (CurrentMap.currentScreen[i][j] == playerColor ) {
-                        CurrentMap.currentScreen[i+m][j+n] = playerColor ;
-                        drawEmpty(i, j);
+
+                        if (up && i == 0)
+                            CurrentMap.currentScreen[i][j] = playerColor - 2;
+
+                        else if (down && i == 30)
+                            CurrentMap.currentScreen[i][j] = playerColor - 2 ;
+
+                        else if (right && j == 54)
+                            CurrentMap.currentScreen[i][j] = playerColor - 2 ;
+
+                        else if (left && j == 0)
+                            CurrentMap.currentScreen[i][j] = playerColor - 2 ;
+                        else {
+                            CurrentMap.currentScreen[i+m][j+n] = playerColor ;
+                            if (! isPlayerOnArea()) {
+                                drawTail(i, j);
+                            }
+                            else {
+                                dontDrawOnArea(i , j);
+                                onArea = true ;
+                            }
+                        }
+                        if (!onArea)
+                            addNewTile(i , j);
                         found = true ;
                         break;
                     }
@@ -172,47 +241,78 @@ public class Enemy extends Player{
             }
         }
 
+        if (up)
+            playerY ++ ;
+        if (down)
+            playerY -- ;
+        if (right)
+            playerX ++ ;
+        if (left)
+            playerX -- ;
+
     }
 
-    private void drawEmpty(int i, int j) {
-        if ((Math.abs(MapUpdating.playerX) + Math.abs(MapUpdating.playerY)) % 2 == 0 ) {
-            if ((i + j) % 2 == 0)
-                CurrentMap.currentScreen[i][j] = playerColor - 2 ;
-            else
-                CurrentMap.currentScreen[i][j] = playerColor - 2 ;
-        }
-        else{
-            if ((i + j) % 2 == 0)
-                CurrentMap.currentScreen[i][j] = playerColor - 2 ;
-            else
-                CurrentMap.currentScreen[i][j] = playerColor - 2 ;
-        }
+    private void drawTail(int i, int j) {
+        CurrentMap.currentScreen[i][j] = playerColor - 2 ;
+    }
+    private void addNewTile (int i , int j) {
+        Tile newTile = new Tile(MapUpdating.playerX + (j - 27) , MapUpdating.playerY - (i - 15) ,
+                playerColor -2 , TileStates.isOccupying) ;
+        MapUpdating.coloredTiles.add(newTile) ;
     }
 
-    public void paintTail() {
+    private boolean isPlayerOnArea () {
+        return coloring.isPlayerOnArea(playerX , playerY , playerColor -1 ) ;
+    }
+    private void dontDrawOnArea(int i , int j) {
+        CurrentMap.currentScreen[i][j] = playerColor - 1 ;
+    }
 
-        boolean isPlayerOnArea = coloring.isPlayerOnArea(xPosition/gamePanel.displayedTileSize ,
-                yPosition/ gamePanel.displayedTileSize , 5 ) ;
+    private void coloring () {
 
-        if (! isPlayerOnArea ) {
-             /* if () {     // going up
+        //paint tail
+        boolean hasReached = false ;  // checking if player has reached any of the colored tiles
+        boolean isThereAnyTail = false ;
 
-             }
+        for (Tile tile : MapUpdating.coloredTiles) {
+            if (tile.tileX == playerX && tile.tileY == playerY &&
+                    tile.tileNumber == playerColor - 1) {
 
-            else if () {  // going down
+                hasReached = true ;
+                break;
+            }
+        }
 
+        for (Tile tile : MapUpdating.coloredTiles) {
+            if (tile.tileNumber == playerColor -2 ) {
+                isThereAnyTail = true ;
+                break;
+            }
+        }
+
+        if (hasReached && isThereAnyTail) {  // coloring the tail character made (changing light colors into occupied colors)
+
+            coloring.paintInsideArea(playerColor -2 , playerColor -1 , playerColor );
+
+            for (Tile tile : MapUpdating.coloredTiles) {
+                if (tile.tileNumber == playerColor - 2) {
+                    tile.setTileState(TileStates.occupied);
+                    tile.setTileNumber(playerColor - 1);
+                }
             }
 
-            else if () {   // going right
+            for (int i = 0 ; i < 31 ; i ++ ) {
+                for (int j = 0 ; j < 55 ; j ++) {
+                    if (CurrentMap.currentScreen[i][j] == playerColor - 2)  // checking if it is light color
 
-
+                        CurrentMap.currentScreen[i][j] = playerColor - 1 ;
+                }
             }
-            else if () {  // going left
 
-            } */
         }
 
     }
+
 
 
 }

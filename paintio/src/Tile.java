@@ -41,4 +41,8 @@ public class Tile {
     public int getTileY() {
         return tileY;
     }
+
+    public int getTileNumber() {
+        return tileNumber;
+    }
 }

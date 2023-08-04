@@ -34,6 +34,7 @@ public class Coloring {
     public void paintTailArea (int x , int y) {   // x & y of player
 
         boolean hasReached = false ;  // checking if player has reached any of the colored tiles
+        boolean isThereAnyTail = false ;
 
         for (Tile tile : MapUpdating.coloredTiles) {
             if (tile.tileX == x && tile.tileY == y &&
@@ -44,9 +45,16 @@ public class Coloring {
             }
         }
 
-        if (hasReached) {  // coloring the tail character made (changing light colors into occupied colors)
+        for (Tile tile : MapUpdating.coloredTiles) {
+            if (tile.tileNumber == 2) {
+                isThereAnyTail = true ;
+                break;
+            }
+        }
 
-            paintInsideArea4();
+        if (hasReached && isThereAnyTail) {  // coloring the tail character made (changing light colors into occupied colors)
+
+            paintInsideArea(2 , 3 , 80);
 
             for (Tile tile : MapUpdating.coloredTiles) {
                 if (tile.tileNumber == 2) {
@@ -70,15 +78,16 @@ public class Coloring {
 
 
 
-    public void paintInsideArea4 () {
+    public void paintInsideArea (int lightNum , int colorNum , int playerColor) {
 
         for (int i = 0 ; i < 31 ; i ++) {
             for (int j = 0 ; j < 55 ; j ++) {
-                if (CurrentMap.currentScreen[i][j] == 2 || CurrentMap.currentScreen[i][j] == 3 ) {
+                if (CurrentMap.currentScreen[i][j] == lightNum || CurrentMap.currentScreen[i][j] == colorNum ) {
                     for (int k = j+1 ; k < 55 ; k ++) {
-                        if (CurrentMap.currentScreen[i][k] == 2 || CurrentMap.currentScreen[i][k] == 3 ) {
+                        if (CurrentMap.currentScreen[i][k] == lightNum || CurrentMap.currentScreen[i][k] == colorNum ) {
                             for (int t = k-1 ; t > j ; t --) {
-                                CurrentMap.currentScreen[i][t] = 3 ;
+                                if (CurrentMap.currentScreen[i][t] != playerColor)
+                                    CurrentMap.currentScreen[i][t] = colorNum ;
                             }
                             break;
                         }
@@ -98,7 +107,7 @@ public class Coloring {
         boolean doOnce4 = true ;
 
         for (Tile tile : MapUpdating.coloredTiles) {
-            if (tile.tileNumber == 2 || tile.tileNumber == 3) {
+            if (tile.tileNumber == lightNum || tile.tileNumber == colorNum) {
                 if (doOnce) {
                     maxY = tile.tileY;
                     doOnce = false;
@@ -110,7 +119,7 @@ public class Coloring {
         }
 
         for (Tile tile : MapUpdating.coloredTiles) {
-            if (tile.tileNumber == 2 || tile.tileNumber == 3) {
+            if (tile.tileNumber == lightNum || tile.tileNumber == colorNum) {
                 if (doOnce2) {
                     minY = tile.tileY;
                     doOnce2 = false;
@@ -127,7 +136,7 @@ public class Coloring {
             doOnce3 = doOnce4 = true ;
 
             for (Tile tile : MapUpdating.coloredTiles) {
-                if (tile.tileNumber == 2 || tile.tileNumber == 3) {
+                if (tile.tileNumber == lightNum || tile.tileNumber == colorNum) {
                     if (tile.tileY == y) {
                         if (doOnce3) {
                             minX = tile.tileX;
@@ -140,7 +149,7 @@ public class Coloring {
             }
 
             for (Tile tile : MapUpdating.coloredTiles) {
-                if (tile.tileNumber == 2 || tile.tileNumber == 3) {
+                if (tile.tileNumber == lightNum || tile.tileNumber == colorNum) {
                     if (tile.tileY == y) {
                         if (doOnce4) {
                             maxX = tile.tileX;
@@ -155,10 +164,10 @@ public class Coloring {
             for (int x = minX ; x < maxX ; x ++) {
 
                 for (Tile tile : MapUpdating.coloredTiles) {
-                    if (tile.tileNumber == 2 || tile.tileNumber == 3) {
+                    if (tile.tileNumber == lightNum || tile.tileNumber == colorNum) {
                         if (tile.tileX == x && tile.tileY == y) {
                             alreadyAdded = true;
-                            tile.tileNumber = 3;
+                            tile.tileNumber = colorNum;
                             tile.tileState = TileStates.occupied;
                             break;
                         }
@@ -166,7 +175,7 @@ public class Coloring {
                 }
 
                 if (!alreadyAdded) {
-                    Tile newTile = new Tile(x, y, 3, TileStates.occupied);
+                    Tile newTile = new Tile(x, y, colorNum, TileStates.occupied);
                     MapUpdating.coloredTiles.add(newTile);
                 }
 

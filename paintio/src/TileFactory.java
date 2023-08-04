@@ -10,7 +10,7 @@ public class TileFactory {
     Tile [] tilePicsArray ;
     int mapTileNum[][] ;
 
-    static int contrastTile = 0 ;
+    static int contrastTile = 1 ;
 
     public TileFactory(GamePanel gp) {
         this.gp = gp ;
