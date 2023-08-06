@@ -136,22 +136,22 @@ public class Enemy extends Player{
         int rand = random.nextInt(100) ;
         changePlace(goingUp , goingDown , goingRight , goingLeft);
 
-        if (rand <= 5 ) {  // up
+        if (rand <= 20 ) {  // up
            goingUp = true ;
            goingDown = goingRight = goingLeft = false ;
         }
 
-        else if (rand <= 10 ) {  // down
+        else if (rand <= 30 ) {  // down
             goingDown = true ;
             goingUp = goingRight = goingLeft = false ;
         }
 
-        else if (rand <= 15 ) {  // right
+        else if (rand <= 40 ) {  // right
             goingRight = true ;
             goingUp = goingDown = goingLeft = false ;
         }
 
-        else if (rand <= 20 ) { // left
+        else if (rand <= 50 ) { // left
             goingLeft = true ;
             goingUp = goingDown = goingRight = false ;
         }

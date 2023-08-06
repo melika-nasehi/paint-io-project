@@ -56,6 +56,7 @@ public class Player extends Entity{
     }
 
     public void kill (int playerX , int playerY , int tailColor) {
+
         Iterator<Tile> iterator = MapUpdating.coloredTiles.iterator();
         boolean collision = false ;
         int tileNumber = 0 ;
