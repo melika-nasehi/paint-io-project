@@ -5,72 +5,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class CurrentMap {
-
-    public int screenX ;
-    public int screenY ;
-    public static ArrayList<Tile> tilesOnScreen = new ArrayList<Tile>();   // 625 tiles display at a moment
-
     public static int[][] currentScreen = new int[31][55];
     GamePanel gamePanel ;
     KeyHandler keyHandler ;
     MapUpdating mapUpdating ;
+    TileFactory tileFactory = new TileFactory();
 
-    Tile [] tilePicsArray ;
+
 
     public CurrentMap (GamePanel gamePanel , KeyHandler keyHandler , MapUpdating mapUpdating) {
         this.gamePanel = gamePanel ;
         this.keyHandler = keyHandler ;
         this.mapUpdating = mapUpdating ;
-        tilePicsArray = new Tile[30];
-        getTileImage();
+        tileFactory.getTileImage();
         firstScreen();
     }
 
-    public void getTileImage() {
-        tilePicsArray[0] = new Tile() ;
-        tilePicsArray[1] = new Tile() ;
-        tilePicsArray[2] = new Tile() ;
-        tilePicsArray[3] = new Tile() ;
-        tilePicsArray[4] = new Tile() ;
-        tilePicsArray[5] = new Tile() ;
-        tilePicsArray[6] = new Tile() ;
-        tilePicsArray[7] = new Tile() ;
-        tilePicsArray[8] = new Tile() ;
-        tilePicsArray[9] = new Tile() ;
-        tilePicsArray[10] = new Tile() ;
-        tilePicsArray[11] = new Tile() ;
-        tilePicsArray[12] = new Tile() ;
-        tilePicsArray[13] = new Tile() ;
-        tilePicsArray[14] = new Tile() ;
-        tilePicsArray[15] = new Tile() ;
-        tilePicsArray[16] = new Tile() ;
-        try {
-
-            tilePicsArray[0].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/gray.png")) ;
-            tilePicsArray[1].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/white tile.png")) ;
-            tilePicsArray[2].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/light red 2.png")) ;
-            tilePicsArray[3].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/red.png")) ;
-            tilePicsArray[4].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/crimson.png")) ;
-            tilePicsArray[5].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/light blue.png")) ;
-            tilePicsArray[6].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/blue.png")) ;
-            tilePicsArray[7].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/player blue.png")) ;
-            tilePicsArray[8].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/light pink.png")) ;
-            tilePicsArray[9].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/pink.png")) ;
-            tilePicsArray[10].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/player pink.png")) ;
-            tilePicsArray[11].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/light green.png")) ;
-            tilePicsArray[12].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/green.png")) ;
-            tilePicsArray[13].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/player green.png")) ;
-            tilePicsArray[14].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/light orange.png")) ;
-            tilePicsArray[15].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/orange.png")) ;
-            tilePicsArray[16].tileImage = ImageIO.read(getClass().getResourceAsStream("/images/player orange.png")) ;
-
-
-
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public void update(){
         if (KeyHandler.upPressed || KeyHandler.isGoingUp)
@@ -98,7 +48,7 @@ public class CurrentMap {
             for (col = 0 ; col < gamePanel.screenCol ; col ++) {
 
                 int tileNum = currentScreen[row][col] ;
-                graphics2D.drawImage(tilePicsArray[tileNum].tileImage, x, y,
+                graphics2D.drawImage(tileFactory.tilePicsArray[tileNum].tileImage, x, y,
                         gamePanel.displayedTileSize, gamePanel.displayedTileSize, null);
 
                 x = x + gamePanel.displayedTileSize ;
@@ -123,7 +73,7 @@ public class CurrentMap {
                  isWhite = false ;
                 }
                 else {           // gray
-                    currentScreen[row][col] = TileFactory.contrastTile ;
+                    currentScreen[row][col] = tileFactory.contrastTile ;
                     isWhite = true ;
                 }
             }

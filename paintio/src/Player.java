@@ -12,7 +12,7 @@ public class Player extends Entity{
     public BufferedImage img ;
     public int speed ;
     ArrayList<Tile> possessedTiles = new ArrayList<>();
-    String imagePath = "/images/crimson.png" ;
+    static String imagePath ;
     GamePanel gamePanel ;
     KeyHandler keyHandler ;
 
@@ -55,11 +55,10 @@ public class Player extends Entity{
 
     }
 
+    int tileNumber ;
     public void kill (int playerX , int playerY , int tailColor) {
 
-        Iterator<Tile> iterator = MapUpdating.coloredTiles.iterator();
         boolean collision = false ;
-        int tileNumber = 0 ;
         for (Tile tile : MapUpdating.coloredTiles) {
             if (playerX == tile.tileX && playerY == tile.tileY &&
                     tile.tileState.equals(TileStates.isOccupying) && tile.tileNumber != tailColor ) {
@@ -68,56 +67,61 @@ public class Player extends Entity{
                 break;
             }
         }
-
         if (collision) {
-            while (iterator.hasNext()) {
-                Tile tile = iterator.next();
-                if (tile.tileNumber == tileNumber || tile.tileNumber == tileNumber + 1 || tile.tileNumber == tileNumber + 2)
-                    iterator.remove();
-            }
+            removeEnemy();
+        }
+    }
 
-            for (int i = 0 ; i < 31 ; i ++) {
-                for (int j = 0 ; j < 55 ; j ++) {
-                    if (CurrentMap.currentScreen[i][j] == tileNumber ||
-                            CurrentMap.currentScreen[i][j] == tileNumber + 1  ||
-                            CurrentMap.currentScreen[i][j] == tileNumber + 2 ) {
+    public void removeEnemy() {
 
-                        if ((Math.abs(MapUpdating.playerX) + Math.abs(MapUpdating.playerY)) % 2 == 0 ) {
-                            if ((i + j) % 2 == 0)
-                                CurrentMap.currentScreen[i][j] = TileFactory.contrastTile ;
-                            else
-                                CurrentMap.currentScreen[i][j] = 1 ;
-                        }
-                        else{
-                            if ((i + j) % 2 == 0)
-                                CurrentMap.currentScreen[i][j] = TileFactory.contrastTile ;
-                            else
-                                CurrentMap.currentScreen[i][j] = 1 ;
-                        }
+        Iterator<Tile> iterator = MapUpdating.coloredTiles.iterator();
+
+        while (iterator.hasNext()) {
+            Tile tile = iterator.next();
+            if (tile.tileNumber == tileNumber || tile.tileNumber == tileNumber + 1 || tile.tileNumber == tileNumber + 2)
+                iterator.remove();
+        }
+
+        for (int i = 0 ; i < 31 ; i ++) {
+            for (int j = 0 ; j < 55 ; j ++) {
+                if (CurrentMap.currentScreen[i][j] == tileNumber ||
+                        CurrentMap.currentScreen[i][j] == tileNumber + 1  ||
+                        CurrentMap.currentScreen[i][j] == tileNumber + 2 ) {
+
+                    if ((Math.abs(MapUpdating.playerX) + Math.abs(MapUpdating.playerY)) % 2 == 0 ) {
+                        if ((i + j) % 2 == 0)
+                            CurrentMap.currentScreen[i][j] = TileFactory.contrastTile ;
+                        else
+                            CurrentMap.currentScreen[i][j] = 1 ;
+                    }
+                    else{
+                        if ((i + j) % 2 == 0)
+                            CurrentMap.currentScreen[i][j] = TileFactory.contrastTile ;
+                        else
+                            CurrentMap.currentScreen[i][j] = 1 ;
                     }
                 }
             }
-            int index = 0 ;
-            for (Integer playerColor : gamePanel.usedColors) {
-                if (playerColor == tileNumber + 2 ) {
-                    switch (index){
-                        case 0 :
-                            gamePanel.enemy1 = null ;
-                            break;
-                        case 1 :
-                            gamePanel.enemy2 = null ;
-                            break;
-                        case 2 :
-                            gamePanel.enemy3 = null ;
-                            break;
-                        case 3 :
-                            gamePanel.enemy4 = null ;
-                            break;
-                    }
+        }
+        int index = 0 ;
+        for (Integer playerColor : gamePanel.usedColors) {
+            if (playerColor == tileNumber + 2 ) {
+                switch (index){
+                    case 0 :
+                        gamePanel.enemy1 = null ;
+                        break;
+                    case 1 :
+                        gamePanel.enemy2 = null ;
+                        break;
+                    case 2 :
+                        gamePanel.enemy3 = null ;
+                        break;
+                    case 3 :
+                        gamePanel.enemy4 = null ;
+                        break;
                 }
-                index ++ ;
             }
-
+            index ++ ;
         }
     }
 }

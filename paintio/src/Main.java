@@ -7,6 +7,7 @@ public class Main {
                 // Create and show the menu screen
                 Menu menu = new Menu();
                 menu.setVisible(true);
+
             }
         });
 

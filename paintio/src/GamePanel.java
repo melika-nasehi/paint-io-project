@@ -10,6 +10,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenCol = 55 ;
     final int screenWidth = displayedTileSize * screenCol ;
     final int screenHeight = displayedTileSize * screenRow ;
+    static double fps ;
 
 
 
@@ -19,12 +20,25 @@ public class GamePanel extends JPanel implements Runnable {
     Player player = new Player(this , kh);
     CurrentMap currentMap = new CurrentMap(this , kh , mp) ;
     int enemyCount = 0 ;
-    int colorCount = 0 ;
+    static int userSelectedEnemyCount  ;
     ArrayList<Integer> usedColors = new ArrayList<>();
-    Enemy enemy1 = new Enemy(this);
-    Enemy enemy2 = new Enemy(this) ;
-    Enemy enemy3 = new Enemy(this) ;
-    Enemy enemy4 = new Enemy(this) ;
+    Enemy enemy1 ;
+    Enemy enemy2 ;
+    Enemy enemy3 ;
+    Enemy enemy4 ;
+
+    public void setEnemyCount() {
+
+        if (userSelectedEnemyCount >= 1)
+            enemy1 = new Enemy(this);
+        if (userSelectedEnemyCount >=2)
+            enemy2 = new Enemy(this);
+        if (userSelectedEnemyCount >=3)
+            enemy3 = new Enemy(this);
+        if (userSelectedEnemyCount >=4)
+            enemy4 = new Enemy(this);
+
+    }
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth , screenHeight));
@@ -32,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(kh);
         this.setFocusable(true);
+        setEnemyCount();
     }
 
     public void startGameThread(){
@@ -42,7 +57,7 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     public void run() {
 
-        double drawInterval = 1000000000 / 5.5 ; // 60 = fps (frame per second)
+        double drawInterval = 1000000000 / fps ; // = fps (frame per second)
         double delta = 0 ;
         long lastTime = System.nanoTime();
         long currentTime ;

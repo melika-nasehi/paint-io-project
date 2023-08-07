@@ -9,11 +9,12 @@ public class Enemy extends Player{
     GamePanel gamePanel ;
     Coloring coloring  = new Coloring() ;
     Random random = new Random() ;
-    public int[] colors = {7 , 10 , 13 , 16} ;  // different color codes
+    public int[] colors = {7 , 10 , 13 , 16 , 19 , 22}  ;  // different color codes
     private int playerColor ;
     boolean goingUp , goingDown = true , goingRight , goingLeft ;
     int tileX = 0 , tileY = 0 ;
     int playerX , playerY ;
+    static int upNumber , downNumber , rightNumber , leftNumber ;
 
     public Enemy (GamePanel gamePanel) {
         this.gamePanel = gamePanel ;
@@ -136,22 +137,22 @@ public class Enemy extends Player{
         int rand = random.nextInt(100) ;
         changePlace(goingUp , goingDown , goingRight , goingLeft);
 
-        if (rand <= 20 ) {  // up
+        if (rand <= upNumber ) {  // up
            goingUp = true ;
            goingDown = goingRight = goingLeft = false ;
         }
 
-        else if (rand <= 30 ) {  // down
+        else if (rand <= downNumber ) {  // down
             goingDown = true ;
             goingUp = goingRight = goingLeft = false ;
         }
 
-        else if (rand <= 40 ) {  // right
+        else if (rand <= rightNumber ) {  // right
             goingRight = true ;
             goingUp = goingDown = goingLeft = false ;
         }
 
-        else if (rand <= 50 ) { // left
+        else if (rand <= leftNumber ) { // left
             goingLeft = true ;
             goingUp = goingDown = goingRight = false ;
         }
